@@ -1,0 +1,41 @@
+.menu-bar {
+    background-color: #110e0e; /* Example background color */
+    color: #fff; /* Example text color */
+    display: flex;
+    flex-direction: row; /* Ensure items are displayed horizontally */
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 40px;
+    width: 100%;
+    position: relative;
+    border: 2px solid rgba(255, 255, 255, .7);
+    backdrop-filter: blur(30px);
+    background: transparent;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .7);
+    font-size: 16px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 25px;
+  }
+
+  .menu-bar a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.1em;
+    transition: color 0.3s; /* Smooth color transition */
+  }
+
+  .menu-bar a:hover {
+    color: #ff9900; /* Change the color on hover */
+  }
+  
+  .menu-bar .left {
+    display: flex;
+    gap: 80px;
+  }
+  
+  .menu-bar .right {
+    display: flex;
+    gap: 30px;
+    margin-right: 20px;
+  }

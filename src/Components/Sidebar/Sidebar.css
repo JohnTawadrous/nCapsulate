@@ -1,0 +1,33 @@
+.sidebar {
+    /* position: fixed; */
+    /* top: 0;
+    right: 0; */
+    width: 300px;
+    height: 200px;
+    /* position: relative; */
+    background-color: #bbbbbb;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto; /* Enable vertical scrolling if needed */
+    /* flex-basis: 300px; */
+    margin-left: 40px;
+    border-radius: 10px;
+    transition: height 0.3s;
+}
+
+.sidebar.has-content {
+    height: auto;
+  }
+
+.confirm-button{
+    border: none;
+    border-radius: 20px; /* Adjust border-radius for curved corners */
+    padding: 10px 20px; /* Adjust padding for larger size */
+    margin: 5px; /* Adjust margin for spacing between buttons */
+    background-color: rgb(221, 167, 17); /* Default color when not selected */
+    color: white; /* Text color */
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); 
+    font-size: 18px;
+}
