@@ -1,4 +1,4 @@
 # nCapsulate
 
-master branch = Front-End REACT
+master branch = Front-End REACT <br>
 bmaster branch = Back-End Spring
