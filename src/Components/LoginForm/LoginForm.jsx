@@ -5,6 +5,9 @@ import { FaUser } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import fetchLiveOdds from '../LiveOdds/LiveOdds';
+import Cookies from 'js-cookie';
+import AuthService from '../Utils/AuthService';
 
 
 
@@ -18,51 +21,20 @@ const LoginForm = () => {
     setIsPasswordVisible((prev) => !prev);
   };
 
-  const handleLogin = () => {
-
-    const credentials = {
-        username: username,
-        password: password,
-      };
-  
-      fetch('http://localhost:8080/api/auth/signin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(credentials),
-      })
-        .then(response => {
-            console.log('Response status:', response.status);
-            console.log('Response status text:', response.statusText);
-
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-
-        // Assuming the server sends the token in a field named 'jwtCookie'
-        const jwtCookie = response.headers.get('myJwtCookie');
-
-        if (jwtCookie) {
-          // Save the JWT token in a secure way, e.g., HttpOnly cookie or localStorage
-          document.cookie = `myJwtCookie=${jwtCookie}; path=/; max-age=86400;`;
-          console.log('JWT token received:', jwtCookie);
-        }
-
-        return response.json();
-      })
-      .then(data => {
-        // Handle the successful login response
-        console.log('Login successful:', data);
-        // Redirect the user to their personal account page
-        navigate(`/user/${data.username}`);
-      })
-      .catch(error => {
-        // Handle errors during login
-        console.error('Error during login:', error.message);
-        // You might want to display an error message to the user
-      });
+  const handleLogin = async () => {
+    try {
+      // Call login function from AuthService
+      await AuthService.login(username, password);
+      
+      // Redirect to user's personal account page
+      navigate(`/user/${username}`);
+      // window.location.reload();
+    } catch (error) {
+      console.error('Error during login:', error.message);
+      // Handle error, e.g., show error message to user
+    }
   };
+
 
   return (
     <div className='wrapper'>

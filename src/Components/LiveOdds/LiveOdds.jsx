@@ -3,26 +3,39 @@ import './LiveOdds.css';
 import Sidebar from '../Sidebar/Sidebar';
 import teamLogos from '../Assets/teamLogos/teamLogos';
 import MenuBar from '../MenuBar/MenuBar';
+import AuthService from '../Utils/AuthService';
+import axios from 'axios';
+import UserService from '../Utils/UserService';
 
 const LiveOdds = () => {
   const [liveOdds, setLiveOdds] = useState(null);
+  const [content, setContent] = useState("");
   const [selectedSpreadOptions, setSelectedSpreadOptions] = useState({});
   const [selectedOverUnderOptions, setSelectedOverUnderOptions] = useState({});
-  // const selectedOptions = { ...selectedSpreadOptions, ...selectedOverUnderOptions };
-  const username = 'John';
-  const funds = '$1000';
+  const [username, setUsername] = useState('');
+  const [funds, setFunds] = useState('$1000');
+  const jwtToken = localStorage.getItem("jwtToken")
 
   useEffect(() => {
+    // Fetch live odds
     const fetchLiveOdds = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/odds/live');
+        // Get JWT token from local storage
+        const currentUser = AuthService.getCurrentUser();
 
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
+        // Fetch user data based on the current user
+        // const userData = await UserService.getUserByUsername(currentUser.username);
 
-        const data = await response.json();
-        setLiveOdds(data);
+        // Set username and funds based on user data
+        setUsername(currentUser.username);
+        setFunds(1000);
+        
+
+        // Fetch live odds with authorization header
+        const response = await UserService.getLiveOdds();
+
+        // Set live odds state
+        setLiveOdds(response.data);
       } catch (error) {
         console.error('Error fetching live odds:', error);
       }
@@ -65,71 +78,30 @@ const handleOverUnderSelection = (gameId, outcome, homeTeam, awayTeam, selected)
   });
 };
 
-  const handleConfirmBet = () => {
-    // Logic to handle confirmation of bet
-  
-    // Here, you can implement the logic to handle the confirmation of the bet.
-    // For example, you can send the selected options to the server to process the bet.
-  
-    // First, you may want to check if the user has made any selections.
-    if (Object.keys(selectedSpreadOptions).length === 0 && Object.keys(selectedOverUnderOptions).length === 0) {
-      console.log('No selections made. Please select some options before confirming the bet.');
-      // You can show a message to the user indicating that they need to select options before confirming the bet.
-      return; // Exit the function if no selections have been made.
-    }
-  
-    // If selections have been made, you can proceed with confirming the bet.
-    console.log('Confirmed selections:', selectedSpreadOptions, selectedOverUnderOptions);
-  
-    // Now, you can send the selected options to the server to process the bet.
-    // You can make an API call here to send the selected options to the backend.
-    // Example API call using fetch:
-    /*
-    fetch('http://example.com/api/confirm-bet', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        selectedSpreadOptions,
-        selectedOverUnderOptions,
-      }),
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      // Handle successful response from server
-      console.log('Bet confirmed successfully.');
-    })
-    .catch(error => {
-      console.error('Error confirming bet:', error);
-      // Handle error from server or network failure
-      // You can show an error message to the user
+const handleConfirmBet = async () => {
+  if (Object.keys(selectedSpreadOptions).length === 0 && Object.keys(selectedOverUnderOptions).length === 0) {
+    console.log('No selections made. Please select some options before confirming the bet.');
+    return;
+  }
+
+  console.log('Confirmed selections:', selectedSpreadOptions, selectedOverUnderOptions);
+
+  try {
+    const selectedBets = [
+      ...Object.values(selectedSpreadOptions).map(option => option.selected),
+      ...Object.values(selectedOverUnderOptions).map(option => option.selected)
+    ];
+
+    await axios.post('http://localhost:8080/api/betslips/save', {
+      username,
+      selectedBets,
     });
-    */
-  };
-  // const groupedSelections = {};
 
-  // // Group spread selections
-  // for (const gameId in selectedSpreadOptions) {
-  //   const { team, point } = selectedSpreadOptions[gameId];
-  //   if (!groupedSelections[gameId]) {
-  //     groupedSelections[gameId] = { game: { homeTeam: '', awayTeam: '' }, selections: [] };
-  //   }
-  //   groupedSelections[gameId].game.homeTeam = team || '';
-  //   groupedSelections[gameId].selections.push({ type: 'spread', point });
-  // }
-
-  // // Group over/under selections
-  // for (const gameId in selectedOverUnderOptions) {
-  //   const { team, point } = selectedOverUnderOptions[gameId];
-  //   if (!groupedSelections[gameId]) {
-  //     groupedSelections[gameId] = { game: { homeTeam: '', awayTeam: '' }, selections: [] };
-  //   }
-  //   groupedSelections[gameId].game.awayTeam = team || '';
-  //   groupedSelections[gameId].selections.push({ type: 'overUnder', point });
-  // }
+    console.log('Bet slip saved successfully');
+  } catch (error) {
+    console.error('Error saving bet slip:', error);
+  }
+};
 
   return (
 
