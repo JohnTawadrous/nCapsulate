@@ -3,6 +3,7 @@ package io.ncapsulate.letsbet.controllers;
 import io.ncapsulate.letsbet.models.ERole;
 import io.ncapsulate.letsbet.models.Role;
 import io.ncapsulate.letsbet.models.User;
+import io.ncapsulate.letsbet.payload.request.AuthenticationRequest;
 import io.ncapsulate.letsbet.payload.request.LoginRequest;
 import io.ncapsulate.letsbet.payload.request.SignupRequest;
 import io.ncapsulate.letsbet.payload.response.MessageResponse;
@@ -11,6 +12,7 @@ import io.ncapsulate.letsbet.repository.RoleRepository;
 import io.ncapsulate.letsbet.repository.UserRepository;
 import io.ncapsulate.letsbet.security.jwt.JwtUtils;
 import io.ncapsulate.letsbet.security.services.UserDetailsImpl;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -53,6 +55,7 @@ public class AuthController {
     JwtUtils jwtUtils;
 
 
+
     /**
      * Authenticates a user based on the provided credentials and returns a JWT cookie
      * upon successful authentication.
@@ -60,24 +63,41 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
+        // Authenticate user using provided credentials
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
+        // Set the authentication object in the SecurityContextHolder
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        // Retrieve UserDetails from the authenticated principal
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+        AuthenticationRequest authenticationRequest = new AuthenticationRequest();
 
+        authenticationRequest.setUsername(loginRequest.getUsername());
+        authenticationRequest.setPassword(loginRequest.getPassword());
+
+
+        // Generate a JWT cookie for the authenticated user
+        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+//        String jwtToken = jwtCookie.getValue();
+        String jwtToken = jwtCookie.toString();
+
+
+        // Extract roles (authorities) from UserDetails
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
+
+        // Construct a response containing user information and JWT token
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                 .body(new UserInfoResponse(userDetails.getId(),
                         userDetails.getUsername(),
                         userDetails.getEmail(),
-                        roles));
+                        roles,
+                        jwtToken));
     }
 
     /**

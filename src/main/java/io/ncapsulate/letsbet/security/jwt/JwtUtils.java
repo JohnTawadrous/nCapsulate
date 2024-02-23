@@ -153,4 +153,19 @@ public class JwtUtils {
                 .signWith(key(), SignatureAlgorithm.HS256)
                 .compact();
     }
+    /**
+     * Generate a JWT token for a given UserDetailsImpl object.
+     *
+     * @param userDetails The UserDetailsImpl object for whom the token is generated.
+     * @return The generated JWT token.
+     */
+    public String generateTokenFromUserDetails(UserDetailsImpl userDetails) {
+        return Jwts.builder()
+                .setSubject(userDetails.getUsername())
+                // Add additional claims if needed
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .signWith(key(), SignatureAlgorithm.HS256)
+                .compact();
+    }
 }

@@ -29,6 +29,13 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
+
+        // Retrieve JWT token from request headers
+        String jwtToken = request.getHeader("Authorization");
+
+        // Log the JWT token
+        logger.info("JWT token: {}", jwtToken);
+
         logger.error("Unauthorized error: {}", authException.getMessage());
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);

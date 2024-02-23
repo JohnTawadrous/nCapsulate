@@ -14,11 +14,21 @@ public class UserInfoResponse {
     private String email;
     private List<String> roles;
 
+    private String jwtToken; // Add JWT token field
+
     public UserInfoResponse(Long id, String username, String email, List<String> roles) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.roles = roles;
+    }
+
+    public UserInfoResponse(Long id, String username, String email, List<String> roles, String jwtToken) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.roles = roles;
+        this.jwtToken = jwtToken;
     }
 
     public Long getId() {
@@ -47,5 +57,13 @@ public class UserInfoResponse {
 
     public List<String> getRoles() {
         return roles;
+    }
+
+    public String getJwtToken() {
+        return jwtToken;
+    }
+
+    public void setJwtToken(String jwtToken) {
+        this.jwtToken = jwtToken;
     }
 }
