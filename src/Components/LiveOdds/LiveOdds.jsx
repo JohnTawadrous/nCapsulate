@@ -20,18 +20,13 @@ const LiveOdds = () => {
     // Fetch live odds
     const fetchLiveOdds = async () => {
       try {
-        // Get JWT token from local storage
+        // Get curent user
         const currentUser = AuthService.getCurrentUser();
-
-        // Fetch user data based on the current user
-        // const userData = await UserService.getUserByUsername(currentUser.username);
 
         // Set username and funds based on user data
         setUsername(currentUser.username);
         setFunds(1000);
         
-
-        // Fetch live odds with authorization header
         const response = await UserService.getLiveOdds();
 
         // Set live odds state
@@ -49,6 +44,7 @@ const LiveOdds = () => {
         const newOptions = {
             ...prevOptions,
             [gameId]: {
+                gameId,
                 outcome: outcome.name,
                 point: outcome.point,
                 homeTeam,
@@ -66,6 +62,7 @@ const handleOverUnderSelection = (gameId, outcome, homeTeam, awayTeam, selected)
       const newOptions = {
           ...prevOptions,
           [gameId]: {
+              gameId,
               outcome: outcome.name,
               point: outcome.point,
               homeTeam,
@@ -88,20 +85,104 @@ const handleConfirmBet = async () => {
 
   try {
     const selectedBets = [
-      ...Object.values(selectedSpreadOptions).map(option => option.selected),
-      ...Object.values(selectedOverUnderOptions).map(option => option.selected)
+      ...Object.values(selectedSpreadOptions).map(option => ({
+        gameId: option.gameId,
+        outcome: option.selected,
+        point: option.point,
+        homeTeam: option.homeTeam,
+        awayTeam: option.awayTeam
+      })),
+      ...Object.values(selectedOverUnderOptions).map(option => ({
+        gameId: option.gameId,
+        outcome: option.selected,
+        point: option.point,
+        homeTeam: option.homeTeam,
+        awayTeam: option.awayTeam
+      }))
     ];
 
-    await axios.post('http://localhost:8080/api/betslips/save', {
+    const betSlipRequest = {
       username,
-      selectedBets,
-    });
+      selectedBets
+    };
+
+    await axios.post('http://localhost:8080/api/betslips/save', betSlipRequest);
 
     console.log('Bet slip saved successfully');
   } catch (error) {
     console.error('Error saving bet slip:', error);
   }
 };
+
+// const handleConfirmBet = async () => {
+//   if (Object.keys(selectedSpreadOptions).length === 0 && Object.keys(selectedOverUnderOptions).length === 0) {
+//     console.log('No selections made. Please select some options before confirming the bet.');
+//     return;
+//   }
+
+//   console.log('Confirmed selections:', selectedSpreadOptions, selectedOverUnderOptions);
+
+//   try {
+//     const selectedBets = [
+//       ...Object.values(selectedSpreadOptions).map(option => (
+//         `${option.selected} - Spread: ${option.point}, Home Team: ${option.homeTeam}, Away Team: ${option.awayTeam}`
+//       )),
+//       ...Object.values(selectedOverUnderOptions).map(option => (
+//         `${option.selected} - Over/Under: ${option.point}, Home Team: ${option.homeTeam}, Away Team: ${option.awayTeam}`
+//       ))
+//     ];
+
+//     await axios.post('http://localhost:8080/api/betslips/save', {
+//       username,
+//       selectedBets,
+//     });
+
+//     console.log('Bet slip saved successfully');
+//   } catch (error) {
+//     console.error('Error saving bet slip:', error);
+//   }
+// };
+
+// const handleConfirmBet = async () => {
+//   if (Object.keys(selectedSpreadOptions).length === 0 && Object.keys(selectedOverUnderOptions).length === 0) {
+//     console.log('No selections made. Please select some options before confirming the bet.');
+//     return;
+//   }
+
+//   console.log('Confirmed selections:', selectedSpreadOptions, selectedOverUnderOptions);
+
+//   try {
+//     const selectedBetsSpread = Object.values(selectedSpreadOptions).map(option => ({
+//       gameId: option.gameId,
+//       outcome: option.outcome,
+//       point: option.point,
+//       homeTeam: option.homeTeam,
+//       awayTeam: option.awayTeam,
+//       selected: option.selected
+//     }));
+
+//     const selectedBetsOverUnder = Object.values(selectedOverUnderOptions).map(option => ({
+//       gameId: option.gameId,
+//       outcome: option.outcome,
+//       point: option.point,
+//       homeTeam: option.homeTeam,
+//       awayTeam: option.awayTeam,
+//       selected: option.selected
+//     }));
+
+//     // Concatenate spread and over/under selections
+//     const selectedBets = [...selectedBetsSpread, ...selectedBetsOverUnder];
+
+//     await axios.post('http://localhost:8080/api/betslips/save', {
+//       username,
+//       selectedBets,
+//     });
+
+//     console.log('Bet slip saved successfully');
+//   } catch (error) {
+//     console.error('Error saving bet slip:', error);
+//   }
+// };
 
   return (
 

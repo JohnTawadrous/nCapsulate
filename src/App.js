@@ -5,6 +5,7 @@ import LoginForm from './Components/LoginForm/LoginForm.jsx'; // Use forward sla
 import SignupForm from './Components/SignupForm/SignupForm.jsx'; // Use forward slashes
 import UserPage from './Components/UserPage/UserPage.jsx'
 import LiveOdds from './Components/LiveOdds/LiveOdds.jsx';
+import BetSlipsComponent from './Components/BetSlips/BetSlips.jsx';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/signup" element={<SignupForm />} />
         <Route path="/user/:username" element={<UserPage />} />
         <Route path="/live-odds" element={<LiveOdds />} />
+        <Route path="/savedslips" element={<BetSlipsComponent />} />
         {/* Add other routes if needed */}
       </Routes>
     </div>

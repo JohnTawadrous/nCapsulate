@@ -31,7 +31,7 @@ const LoginForm = () => {
       // window.location.reload();
     } catch (error) {
       console.error('Error during login:', error.message);
-      // Handle error, e.g., show error message to user
+      // Handle error
     }
   };
 

@@ -1,8 +1,8 @@
 .menu-bar {
-    background-color: #110e0e; /* Example background color */
-    color: #fff; /* Example text color */
+    background-color: #110e0e; 
+    color: #fff; 
     display: flex;
-    flex-direction: row; /* Ensure items are displayed horizontally */
+    flex-direction: row; 
     justify-content: space-between;
     align-items: center;
     padding: 30px 40px;
@@ -22,11 +22,11 @@
     text-decoration: none;
     color: #fff;
     font-size: 1.1em;
-    transition: color 0.3s; /* Smooth color transition */
+    transition: color 0.3s; 
   }
 
   .menu-bar a:hover {
-    color: #ff9900; /* Change the color on hover */
+    color: #ff9900; 
   }
   
   .menu-bar .left {

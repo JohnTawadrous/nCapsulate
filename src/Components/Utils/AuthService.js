@@ -48,11 +48,23 @@ const getCurrentUser = () => {
   return JSON.parse(localStorage.getItem("user"));
 };
 
+// const fetchBetSlips = async (username) => {
+//   try {
+//       const response = await axios.get(`/api/betslips/${username}`);
+//       return response.data; // Assuming your API returns the bet slips directly
+//   } catch (error) {
+//       console.error('Error fetching bet slips:', error);
+//       throw error; // Handle the error as needed in your React component
+//   }
+// };
+
 const AuthService = {
   register,
   login,
   logout,
   getCurrentUser,
 }
+
+
 
 export default AuthService;

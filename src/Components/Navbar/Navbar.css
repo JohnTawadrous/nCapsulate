@@ -22,20 +22,20 @@
   }
   
   .navbar li {
-    margin-right: 25px; /* Adjust the spacing between items as needed */
+    margin-right: 25px; 
   }
   
   .navbar li:last-child {
-    margin-right: 0; /* Remove margin for the last item to avoid extra spacing */
+    margin-right: 0; 
   }
 
   .navbar a {
     text-decoration: none;
     color: #fff;
     font-size: 1.1em;
-    transition: color 0.3s; /* Smooth color transition */
+    transition: color 0.3s; 
   }
   
   .navbar a:hover {
-    color: #ff9900; /* Change the color on hover */
+    color: #ff9900; 
   }

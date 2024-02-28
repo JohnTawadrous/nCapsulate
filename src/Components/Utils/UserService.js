@@ -22,12 +22,21 @@ const getLiveOdds = () => {
     return axios.get("http://localhost:8080/api/odds/live");
 };
 
+const getSavedBetSlips = (username) => {
+  return axios.get("http://localhost:8080/api/betslips/saved", {
+    params: { username: username }
+  });
+};
+
+
+
 const UserService = {
   getPublicContent,
   getUserBoard,
   getModeratorBoard,
   getAdminBoard,
   getLiveOdds,
+  getSavedBetSlips,
 }
 
 export default UserService;

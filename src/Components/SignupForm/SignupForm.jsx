@@ -27,7 +27,6 @@ const SignupForm = () => {
      // Check if passwords match
     if (password !== confirmPassword) {
         console.error('Passwords do not match');
-        // You might want to display an error message to the user
         alert('Passwords do not match');
         return;
       }
@@ -35,12 +34,11 @@ const SignupForm = () => {
       // Check if emails match
     if (email !== confirmEmail) {
         console.error('Emails do not match');
-        // You might want to display an error message to the user
         alert('Emails do not match');
         return;
       }
 
-    // Logic to handle signup, send a request to the backend, etc.
+    // Logic to handle signup, send a request to the backend
     const userData = {
       username: username,
       email: email,
@@ -63,7 +61,6 @@ const SignupForm = () => {
         .then(data => {
           // Handle the successful signup response
           console.log('Signup successful:', data);
-          // You might want to redirect the user or perform other actions here
         })
         .catch(error => {
           // Handle errors during signup
