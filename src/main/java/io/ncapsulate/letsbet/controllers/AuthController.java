@@ -81,7 +81,6 @@ public class AuthController {
 
         // Generate a JWT cookie for the authenticated user
         ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
-//        String jwtToken = jwtCookie.getValue();
         String jwtToken = jwtCookie.toString();
 
 

@@ -1,5 +1,6 @@
 package io.ncapsulate.letsbet.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -46,7 +47,8 @@ public class User {
     private Set<Role> roles = new HashSet<>(); // Set of roles associated with the user.
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BetSlip> betSlips = new ArrayList<>();
+    @JsonIgnore
+    private Set<BetSlip> betSlips = new HashSet<>();
 
 
     public User() {
@@ -58,7 +60,7 @@ public class User {
         this.password = password;
     }
 
-    public User(Long id, String username, String email, String password, List<BetSlip> betSlips) {
+    public User(Long id, String username, String email, String password, Set<BetSlip> betSlips) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -106,12 +108,17 @@ public class User {
         this.roles = roles;
     }
 
-    public List<BetSlip> getBetSlips() {
+    public Set<BetSlip> getBetSlips() {
         return betSlips;
     }
 
-    public void setBetSlips(List<BetSlip> betSlips) {
+    public void setBetSlips(Set<BetSlip> betSlips) {
         this.betSlips = betSlips;
+    }
+
+    public void addBetSlip(BetSlip betSlip) {
+        betSlips.add(betSlip);
+        betSlip.setUser(this);
     }
 
 }

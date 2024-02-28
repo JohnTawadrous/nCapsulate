@@ -2,7 +2,9 @@ package io.ncapsulate.letsbet.models;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "bet_slips")
@@ -16,15 +18,13 @@ public class BetSlip {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ElementCollection
-    @CollectionTable(name = "selected_bets", joinColumns = @JoinColumn(name = "bet_slip_id"))
-    @Column(name = "selected_bet")
-    private List<String> selectedBets;
+    @OneToMany(mappedBy = "betSlip", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<BetOption> selectedBets = new HashSet<>();
 
     public BetSlip() {
     }
 
-    public BetSlip(Long id, User user, List<String> selectedBets) {
+    public BetSlip(Long id, User user, Set<BetOption> selectedBets) {
         this.id = id;
         this.user = user;
         this.selectedBets = selectedBets;
@@ -46,11 +46,11 @@ public class BetSlip {
         this.user = user;
     }
 
-    public List<String> getSelectedBets() {
+    public Set<BetOption> getSelectedBets() {
         return selectedBets;
     }
 
-    public void setSelectedBets(List<String> selectedBets) {
+    public void setSelectedBets(Set<BetOption> selectedBets) {
         this.selectedBets = selectedBets;
     }
 }

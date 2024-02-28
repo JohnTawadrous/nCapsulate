@@ -8,6 +8,5 @@ import java.util.List;
 
 @Repository
 public interface BetSlipRepository extends JpaRepository<BetSlip, Long> {
-    // You can define custom query methods here if needed
     List<BetSlip> findByUserUsername(String username);
 }

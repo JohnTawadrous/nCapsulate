@@ -100,19 +100,12 @@ public class JwtUtils {
         if (keyBytes.length < 32) {
             throw new IllegalArgumentException("JWT secret key must be at least 256 bits long");
         }
-
         // Use the first 256 bits of the keyBytes
         byte[] truncatedKey = Arrays.copyOf(keyBytes, 32);
 
         return Keys.hmacShaKeyFor(truncatedKey);
-//        return Keys.secretKeyFor(SignatureAlgorithm.HS256);
-//        byte[] keyBytes = jwtSecret.getBytes(StandardCharsets.UTF_8);
-//        return Keys.hmacShaKeyFor(keyBytes);
     }
-//    private Key key() {
-//        byte[] keyBytes = Decoders.BASE64.decode(jwtSecret);
-//        return Keys.hmacShaKeyFor(keyBytes);
-//    }
+
 
 
     /**

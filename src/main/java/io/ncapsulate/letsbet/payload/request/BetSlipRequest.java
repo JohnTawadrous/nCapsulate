@@ -1,28 +1,26 @@
 package io.ncapsulate.letsbet.payload.request;
 
+import io.ncapsulate.letsbet.models.BetOption;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
+import java.util.Set;
 
 public class BetSlipRequest {
 
     @NotBlank
     private String username;
     @NotBlank
-    private List<String> selectedBets;
-
-    @NotBlank
-    private String jwtToken;
+    private Set<BetOption> selectedBets;
 
     // Constructors, getters, and setters
 
     public BetSlipRequest() {
     }
 
-    public BetSlipRequest(String username, List<String> selectedBets, String jwtToken) {
+    public BetSlipRequest(String username, Set<BetOption> selectedBets) {
         this.username = username;
         this.selectedBets = selectedBets;
-        this.jwtToken = jwtToken;
     }
 
     public String getUsername() {
@@ -33,19 +31,12 @@ public class BetSlipRequest {
         this.username = username;
     }
 
-    public List<String> getSelectedBets() {
+    public Set<BetOption> getSelectedBets() {
         return selectedBets;
     }
 
-    public void setSelectedBets(List<String> selectedBets) {
+    public void setSelectedBets(Set<BetOption> selectedBets) {
         this.selectedBets = selectedBets;
     }
 
-    public String getJwtToken() {
-        return jwtToken;
-    }
-
-    public void setJwtToken(String jwtToken) {
-        this.jwtToken = jwtToken;
-    }
 }

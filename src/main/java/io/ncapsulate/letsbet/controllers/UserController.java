@@ -23,13 +23,11 @@ public class UserController {
         // Get the UserDetails from the security context
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        // Use the userDetails.getId() to fetch the corresponding user from the database
-        // For simplicity, I assume you have a UserRepository autowired in this class
 
         User user = userRepository.findById(userDetails.getId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Now, you can return the user information to be displayed on the account page
+        // return the user information to be displayed on the account page
         return ResponseEntity.ok(new UserAccountResponse(user.getId(), user.getUsername(), user.getEmail()));
     }
 }
