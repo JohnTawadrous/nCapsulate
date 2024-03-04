@@ -1,5 +1,6 @@
 package io.ncapsulate.letsbet.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -15,9 +16,10 @@ public class BetOption {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bet_slip_id", nullable = false)
+    @JsonBackReference
     private BetSlip betSlip;
     private String outcome;
-    private String point;
+    private int point;
 
     @Column(name = "home_team")
     private String homeTeam;
@@ -25,12 +27,19 @@ public class BetOption {
     @Column(name = "away_team")
     private String awayTeam;
 
+    private boolean isCorrect;
+
+    @Enumerated(EnumType.STRING)
+    private BetType betType;
+
+    private String marketKey;
+
 
     public BetOption(){
 
     }
 
-    public BetOption(Long id, String gameId, BetSlip betSlip, String outcome, String point, String homeTeam, String awayTeam) {
+    public BetOption(Long id, String gameId, BetSlip betSlip, String outcome, int point, String homeTeam, String awayTeam, String marketKey) {
         this.id = id;
         this.gameId = gameId;
         this.betSlip = betSlip;
@@ -38,14 +47,15 @@ public class BetOption {
         this.point = point;
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
+        this.marketKey = marketKey;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setBetOptionId(Long betOptionId) {
-        this.id = betOptionId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getGameId() {
@@ -64,11 +74,11 @@ public class BetOption {
         this.outcome = outcome;
     }
 
-    public String getPoint() {
+    public int getPoint() {
         return point;
     }
 
-    public void setPoint(String point) {
+    public void setPoint(int point) {
         this.point = point;
     }
 
@@ -94,5 +104,29 @@ public class BetOption {
 
     public void setBetSlip(BetSlip betSlip) {
         this.betSlip = betSlip;
+    }
+
+    public boolean isCorrect() {
+        return isCorrect;
+    }
+
+    public void setCorrect(boolean correct) {
+        isCorrect = correct;
+    }
+
+    public BetType getBetType() {
+        return betType;
+    }
+
+    public void setBetType(BetType betType) {
+        this.betType = betType;
+    }
+
+    public String getMarketKey() {
+        return marketKey;
+    }
+
+    public void setMarketKey(String marketKey) {
+        this.marketKey = marketKey;
     }
 }

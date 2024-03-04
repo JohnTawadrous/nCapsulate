@@ -3,6 +3,7 @@ package io.ncapsulate.letsbet.controllers;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.ncapsulate.letsbet.models.BetOption;
 import io.ncapsulate.letsbet.models.BetSlip;
+import io.ncapsulate.letsbet.models.GameScore;
 import io.ncapsulate.letsbet.models.User;
 import io.ncapsulate.letsbet.repository.BetSlipRepository;
 import io.ncapsulate.letsbet.repository.UserRepository;
@@ -30,6 +31,9 @@ public class BetSlipService {
     private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
+    private OddsService oddsService;
+
+    @Autowired
     private UserRepository userRepository;
 
     @Transactional
@@ -52,22 +56,10 @@ public class BetSlipService {
         betSlipRepository.save(betSlip);
     }
 
-//    public List<BetSlip> getUserBetSlips(String username) throws UsernameNotFoundException{
-//        // Find the user by username
-//        Optional<User> optionalUser = userRepository.findByUsername(username);
-//        User user = optionalUser.orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-////                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-//
-//        // Retrieve the user's bet slips
-//        List<BetSlip> betSlips = user.getBetSlips();
-//
-//        return betSlips;
-//    }
-
 
     public List<BetSlip> getUserBetSlips(String username){
 
-        List<BetSlip> betSlips = betSlipRepository.findByUserUsername(username);
+        List<BetSlip> betSlips = betSlipRepository.findBetSlipByUsername(username);
 
         return betSlips;
     }

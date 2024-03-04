@@ -3,6 +3,7 @@ package io.ncapsulate.letsbet.controllers;
 
 import io.ncapsulate.letsbet.models.BetOption;
 import io.ncapsulate.letsbet.models.BetSlip;
+import io.ncapsulate.letsbet.models.BetType;
 import io.ncapsulate.letsbet.models.User;
 import io.ncapsulate.letsbet.payload.request.AuthenticationRequest;
 import io.ncapsulate.letsbet.payload.request.BetSlipRequest;
@@ -74,12 +75,19 @@ public class BetSlipController {
                 .map(selectedBet -> {
                     BetOption betOption = new BetOption();
                     betOption.setBetSlip(betSlip);
-                    betOption.setBetOptionId(selectedBet.getId());
+                    betOption.setId(selectedBet.getId());
                     betOption.setGameId(selectedBet.getGameId());
                     betOption.setOutcome(selectedBet.getOutcome());
                     betOption.setPoint(selectedBet.getPoint());
                     betOption.setHomeTeam(selectedBet.getHomeTeam());
                     betOption.setAwayTeam(selectedBet.getAwayTeam());
+                    betOption.setMarketKey(selectedBet.getMarketKey());
+                    String marketKey = selectedBet.getMarketKey();
+                    if ("spreads".equals(marketKey)) {
+                        betOption.setBetType(BetType.SPREAD);
+                    } else if ("totals".equals(marketKey)) {
+                        betOption.setBetType(BetType.OVER_UNDER);
+                    }
                     return betOption;
                 })
                 .collect(Collectors.toSet());
@@ -95,31 +103,6 @@ public class BetSlipController {
                         roles));
 
     }
-
-//    @GetMapping("/saved")
-//    public ResponseEntity<List<BetSlip>> getUserBetSlips(HttpServletRequest request) {
-//        // Retrieve the user's bet slips
-//        String jwt = jwtUtils.getJwtFromCookies(request);
-//        String username = jwtUtils.getUserNameFromJwtToken(jwt);
-//
-//        ResponseCookie cookie = ResponseCookie.from(jwtCookie, jwt).path("/api").maxAge(24 * 60 * 60).httpOnly(true).build();
-//
-//
-//        UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(username);
-//
-//        List<String> roles = userDetails.getAuthorities().stream()
-//                .map(item -> item.getAuthority())
-//                .collect(Collectors.toList());
-//
-//        List<BetSlip> betSlips = betSlipService.getUserBetSlips(username);
-//
-//        if (betSlips.isEmpty()) {
-//            return ResponseEntity.noContent().build(); // Return 204 No Content if no bet slips found
-//        } else {
-//            return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwt)
-//                    .body(betSlips);
-//        }
-//    }
 
     @GetMapping("/saved")
     public ResponseEntity<List<BetSlip>> getUserBetSlips(@RequestParam("username") String username) {
@@ -138,14 +121,5 @@ public class BetSlipController {
                     .body(betSlips);
 
     }
-
-//    @GetMapping("/saved")
-//    public List<BetSlip> getUserBetSlips(@RequestParam("username") String username) {
-//
-//        List<BetSlip> betSlips = betSlipService.getUserBetSlips(username);
-//
-//        return betSlips;
-//
-//    }
 
 }

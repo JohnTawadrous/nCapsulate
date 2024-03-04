@@ -1,5 +1,7 @@
 package io.ncapsulate.letsbet.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -16,9 +18,11 @@ public class BetSlip {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
     private User user;
 
     @OneToMany(mappedBy = "betSlip", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private Set<BetOption> selectedBets = new HashSet<>();
 
     public BetSlip() {
