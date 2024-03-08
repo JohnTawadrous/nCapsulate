@@ -70,6 +70,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/api/test/**").permitAll()
                                 .requestMatchers("/api/odds/live").permitAll()
                                 .requestMatchers("api/betslips/**").permitAll()
+                                .requestMatchers("api/matchups/**").permitAll()
                                 .anyRequest().authenticated()
                 );
 

@@ -1,24 +1,19 @@
-package io.ncapsulate.letsbet.controllers;
+package io.ncapsulate.letsbet.services;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.ncapsulate.letsbet.models.BetOption;
 import io.ncapsulate.letsbet.models.BetSlip;
-import io.ncapsulate.letsbet.models.GameScore;
 import io.ncapsulate.letsbet.models.User;
 import io.ncapsulate.letsbet.repository.BetSlipRepository;
 import io.ncapsulate.letsbet.repository.UserRepository;
-import io.ncapsulate.letsbet.security.services.UserDetailsImpl;
 import io.ncapsulate.letsbet.security.services.UserDetailsServiceImpl;
+import io.ncapsulate.letsbet.services.OddsService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Service

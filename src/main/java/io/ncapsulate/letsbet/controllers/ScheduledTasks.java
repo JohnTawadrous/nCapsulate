@@ -1,6 +1,8 @@
 package io.ncapsulate.letsbet.controllers;
 
 import io.ncapsulate.letsbet.models.GameScore;
+import io.ncapsulate.letsbet.services.BetOptionService;
+import io.ncapsulate.letsbet.services.OddsService;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

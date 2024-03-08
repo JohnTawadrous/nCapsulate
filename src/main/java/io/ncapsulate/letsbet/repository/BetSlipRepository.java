@@ -13,4 +13,6 @@ public interface BetSlipRepository extends JpaRepository<BetSlip, Long> {
 
     @Query("SELECT bs FROM BetSlip bs JOIN FETCH bs.selectedBets WHERE bs.user.username = :username")
     List<BetSlip> findBetSlipByUsername(@Param("username") String username);
+
+    BetSlip findBetSlipById(Long id);
 }

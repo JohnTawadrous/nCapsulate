@@ -1,4 +1,4 @@
-package io.ncapsulate.letsbet.controllers;
+package io.ncapsulate.letsbet.services;
 
 import io.ncapsulate.letsbet.models.BetOption;
 import io.ncapsulate.letsbet.models.BetType;

@@ -57,4 +57,14 @@ public class BetSlip {
     public void setSelectedBets(Set<BetOption> selectedBets) {
         this.selectedBets = selectedBets;
     }
+
+    public int getTotalCorrectBets() {
+        int totalCorrectBets = 0;
+        for (BetOption betOption : selectedBets) {
+            if (betOption.isCorrect()) {
+                totalCorrectBets++;
+            }
+        }
+        return totalCorrectBets;
+    }
 }
