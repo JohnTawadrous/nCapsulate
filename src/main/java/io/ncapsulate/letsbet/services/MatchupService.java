@@ -96,9 +96,11 @@ public class MatchupService {
 
     }
 
-    public void acceptMatchup(Long matchupId) throws ChangeSetPersister.NotFoundException {
+    public void acceptMatchup(Long matchupId, Long selectedBetSlipId) throws ChangeSetPersister.NotFoundException {
         Matchup matchup = matchupRepository.findById(matchupId).orElseThrow(() -> new ChangeSetPersister.NotFoundException());
         matchup.setStatus(MatchupStatus.ACCEPTED);
+        BetSlip selectedBetSlip = betSlipRepository.findBetSlipById(selectedBetSlipId);
+        matchup.setBetSlipUser2(selectedBetSlip);
         matchupRepository.save(matchup);
     }
 

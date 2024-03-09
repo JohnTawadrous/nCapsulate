@@ -116,4 +116,22 @@ public class BetSlipController {
 
     }
 
+    @GetMapping("/saved-today")
+    public ResponseEntity<List<BetSlip>> getUserBetSlipsForToday(@RequestParam("username") String username) {
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(username);
+
+        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(item -> item.getAuthority())
+                .collect(Collectors.toList());
+
+        List<BetSlip> betSlips = betSlipService.getUserBetSlipsForToday(username);
+
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                .body(betSlips);
+
+    }
+
 }

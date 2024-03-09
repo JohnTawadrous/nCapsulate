@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -51,10 +52,17 @@ public class MatchupController {
     }
 
     @PostMapping("/accept/{matchupId}")
-    public ResponseEntity<?> acceptMatchup(@PathVariable Long matchupId) {
+    public ResponseEntity<?> acceptMatchup(@PathVariable Long matchupId, @RequestParam Long selectedBetSlipId) {
         try {
-            matchupService.acceptMatchup(matchupId);
-            return ResponseEntity.ok("Matchup accepted successfully");
+            Matchup matchup = matchupRepository.findMatchupById(matchupId);
+
+            UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(matchup.getUser2().getUsername());
+
+            ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+
+            matchupService.acceptMatchup(matchupId, selectedBetSlipId);
+            return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                    .body("Match Accepted Successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to accept matchup: " + e.getMessage());
         }

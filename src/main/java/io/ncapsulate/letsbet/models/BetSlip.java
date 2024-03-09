@@ -3,7 +3,9 @@ package io.ncapsulate.letsbet.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,13 +27,19 @@ public class BetSlip {
     @JsonManagedReference
     private Set<BetOption> selectedBets = new HashSet<>();
 
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at")
+    private Date createdAt;
+
     public BetSlip() {
     }
 
-    public BetSlip(Long id, User user, Set<BetOption> selectedBets) {
+    public BetSlip(Long id, User user, Set<BetOption> selectedBets, Date createdAt) {
         this.id = id;
         this.user = user;
         this.selectedBets = selectedBets;
+        this.createdAt = createdAt;
     }
 
     public Long getId() {
@@ -56,6 +64,14 @@ public class BetSlip {
 
     public void setSelectedBets(Set<BetOption> selectedBets) {
         this.selectedBets = selectedBets;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public int getTotalCorrectBets() {

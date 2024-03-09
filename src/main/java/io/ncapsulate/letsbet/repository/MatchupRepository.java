@@ -12,10 +12,10 @@ import java.util.List;
 @Repository
 public interface MatchupRepository extends JpaRepository<Matchup, Long> {
 
-    MatchupStatus findMatchupById (Long id);
+    Matchup findMatchupById (Long id);
 
 
 //    @Query("SELECT * FROM lets_bet_db.matchups WHERE user1_id = :id OR user2_id = :id AND status = 'PENDING'")
-@Query("SELECT m FROM Matchup m WHERE (m.user2.id = :id) AND m.status = 'PENDING'")
-List<Matchup> findPendingMatchupRequestsByUserId(@Param("id") Long id);
+    @Query("SELECT m FROM Matchup m WHERE (m.user2.id = :id) AND m.status = 'PENDING'")
+    List<Matchup> findPendingMatchupRequestsByUserId(@Param("id") Long id);
 }
