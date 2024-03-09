@@ -7,8 +7,8 @@ const Navbar = () => {
     <div className="navbar">
         <ul>
             <li><NavbarItem to="/live-odds" label="Browse Odds" /></li>
-            <li><NavbarItem to="/profile" label="Challenge a Friend" /></li>
-            <li><NavbarItem to="/settings" label="Classic Matchup" /></li>
+            <li><NavbarItem to="/friendly-match" label="Friendly Match" /></li>
+            <li><NavbarItem to="/classic-match" label="Classic Match" /></li>
             <li><NavbarItem to="/savedslips" label="Saved Slips" /></li>
             <li><NavbarItem to="/logout" label="Settings" /></li>
         </ul>

@@ -22,13 +22,53 @@ const getLiveOdds = () => {
     return axios.get("http://localhost:8080/api/odds/live");
 };
 
+const sendMatchupRequest = async (matchupRequestData) => {
+  try {
+    const response = await axios.post(`http://localhost:8080/api/matchups/send-request`, matchupRequestData);
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to send matchup request');
+  }
+};
+
+const acceptMatchup = async (matchupId, selectedBetSlipId) => {
+  try {
+    const response = await axios.post(`http://localhost:8080/api/matchups/accept/${matchupId}?selectedBetSlipId=${selectedBetSlipId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to accept matchup');
+  }
+};
+
+const declineMatchup = async (matchupId) => {
+  try {
+    const response = await axios.post(`http://localhost:8080/api/matchups/decline/${matchupId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to decline matchup');
+  }
+};
+
 const getSavedBetSlips = (username) => {
   return axios.get("http://localhost:8080/api/betslips/saved", {
     params: { username: username }
   });
 };
 
+const getPendingMatchupRequests = (username) => {
+  return axios.get("http://localhost:8080/api/matchups/pending", {
+    params: { username: username }
+  });
+};
 
+const getUsernameById = async (userId) => {
+  try {
+      const response = await axios.get(`http://localhost:8080/api/matchups/${userId}/username`);
+      return response.data;
+  } catch (error) {
+      throw new Error('Failed to get username by ID');
+  }
+};
 
 const UserService = {
   getPublicContent,
@@ -37,6 +77,11 @@ const UserService = {
   getAdminBoard,
   getLiveOdds,
   getSavedBetSlips,
+  sendMatchupRequest,
+  acceptMatchup,
+  declineMatchup,
+  getPendingMatchupRequests,
+  getUsernameById,
 }
 
 export default UserService;

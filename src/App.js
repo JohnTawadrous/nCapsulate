@@ -6,6 +6,7 @@ import SignupForm from './Components/SignupForm/SignupForm.jsx'; // Use forward 
 import UserPage from './Components/UserPage/UserPage.jsx'
 import LiveOdds from './Components/LiveOdds/LiveOdds.jsx';
 import BetSlipsComponent from './Components/BetSlips/BetSlips.jsx';
+import FriendlyMatch from './Components/FriendlyMatch/FriendlyMatch.jsx';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/user/:username" element={<UserPage />} />
         <Route path="/live-odds" element={<LiveOdds />} />
         <Route path="/savedslips" element={<BetSlipsComponent />} />
+        <Route path="/friendly-match" element={<FriendlyMatch />} />
         {/* Add other routes if needed */}
       </Routes>
     </div>
