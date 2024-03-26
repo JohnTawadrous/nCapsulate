@@ -55,18 +55,6 @@ public class OddsService {
             ObjectMapper objectMapper = new ObjectMapper();
             GameScore[] gameScoresArray = objectMapper.readValue(response.body(), GameScore[].class);
 
-//            logger.info("Fetched game scores: {}", Arrays.toString(gameScoresArray));
-//            logger.info("Fetched game scores:");
-//            try {
-//                for (GameScore gameScore : gameScoresArray) {
-//                    logger.info("ID: {}, Total Score: {}, Spread: {}", gameScore.getId(), gameScore.getTotalScore(), gameScore.getSpread());
-//                }
-//            }
-//            catch (Exception e) {
-//                // Handle exceptions
-//                logger.error("Error occurred during fetch Game Scores: {}", e.getMessage());
-//                e.printStackTrace();
-//            }
             // Convert the array to a List and return it
             return Arrays.asList(gameScoresArray);
         } else {

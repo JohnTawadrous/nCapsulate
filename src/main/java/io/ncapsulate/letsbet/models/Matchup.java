@@ -22,12 +22,12 @@ public class Matchup {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user2;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "betslip_user1_id", referencedColumnName = "id")
     @JsonIgnore
     private BetSlip betSlipUser1;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "betslip_user2_id", referencedColumnName = "id")
     @JsonIgnore
     private BetSlip betSlipUser2;

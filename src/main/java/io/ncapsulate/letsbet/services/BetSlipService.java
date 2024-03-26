@@ -6,19 +6,15 @@ import io.ncapsulate.letsbet.models.User;
 import io.ncapsulate.letsbet.repository.BetSlipRepository;
 import io.ncapsulate.letsbet.repository.UserRepository;
 import io.ncapsulate.letsbet.security.services.UserDetailsServiceImpl;
-import io.ncapsulate.letsbet.services.OddsService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
+
 
 @Service
 public class BetSlipService {
@@ -43,10 +39,8 @@ public class BetSlipService {
 
         // Create a new bet slip entity
         BetSlip betSlip = new BetSlip();
-//        betSlip.setUsername(userDetails);
 
         betSlip.setUser(user);
-
 
         // Set selected bets
         betSlip.setSelectedBets(selectedBets);
@@ -55,12 +49,17 @@ public class BetSlipService {
         betSlipRepository.save(betSlip);
     }
 
-
     public List<BetSlip> getUserBetSlips(String username){
 
         List<BetSlip> betSlips = betSlipRepository.findBetSlipByUsername(username);
 
         return betSlips;
+    }
+
+    public BetSlip getBetSlip(Long id){
+        BetSlip betSlip = betSlipRepository.findBetSlipById(id);
+
+        return betSlip;
     }
 
     @Transactional(readOnly = true)
@@ -69,35 +68,41 @@ public class BetSlipService {
         return betSlipRepository.findByUsernameAndCreatedAt(username, today);
     }
 
-//    @Transactional(readOnly = true)
-//    public List<BetSlip> getUserBetSlipsForToday(String username) {
-//        // Get the user object from the username
-//        User user = userRepository.findUserByUsername(username);
-////                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
-//
-//        // Get the start of the current day
-//        Date startOfDay = DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH);
-//
-//        // Retrieve the bet slips for today
-//        return betSlipRepository.findByUserAndCreatedAt(user, startOfDay);
-//    }
+    public void updateTotalCorrectBetsForBetSlip(BetSlip betSlip) {
+        int totalCorrectBets = 0;
+        Set<BetOption> selectedBets = betSlip.getSelectedBets();
+        for (BetOption betOption : selectedBets) {
+            if (betOption.isCorrect()) {
+                totalCorrectBets++;
+            }
+        }
+        betSlip.setTotalCorrectBets(totalCorrectBets);
+        betSlipRepository.save(betSlip);
+    }
 
-//    private List<BetSlip> filterBetSlipsByCurrentDay(List<BetSlip> betSlips) {
-//        // Get the current date
-//        Calendar currentCal = Calendar.getInstance();
-//        currentCal.setTime(new Date());
-//        int currentDayOfYear = currentCal.get(Calendar.DAY_OF_YEAR);
-//        int currentYear = currentCal.get(Calendar.YEAR);
-//
-//        // Filter bet slips created on the current day
-//        return betSlips.stream()
-//                .filter(betSlip -> {
-//                    Calendar betSlipCal = Calendar.getInstance();
-//                    betSlipCal.setTime(betSlip.getCreatedAt());
-//                    int betSlipDayOfYear = betSlipCal.get(Calendar.DAY_OF_YEAR);
-//                    int betSlipYear = betSlipCal.get(Calendar.YEAR);
-//                    return betSlipDayOfYear == currentDayOfYear && betSlipYear == currentYear;
-//                })
-//                .collect(Collectors.toList());
-//    }
+    public List<BetSlip> getAllBetSlips() {
+        return betSlipRepository.findAll();
+    }
+
+    public void updateCompletedForBetSlip(BetSlip betSlip){
+        boolean isCompleted = true;
+        Set<BetOption> selectedBets = betSlip.getSelectedBets();
+        for (BetOption betOption : selectedBets) {
+            if (!betOption.isCompleted()) {
+                isCompleted = false;
+                break;
+            }
+        }
+        betSlip.setIsCompleted(isCompleted);
+        betSlipRepository.save(betSlip);
+    }
+
+    public boolean areAllGamesCompleted(BetSlip betSlip) {
+        if (betSlip == null) {
+            return false;
+        }
+        betSlip.setIsCompleted(betSlip.getIsCompleted());
+        betSlipRepository.save(betSlip);
+        return betSlip.getIsCompleted();
+    }
 }

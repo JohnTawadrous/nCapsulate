@@ -12,7 +12,6 @@ import io.ncapsulate.letsbet.repository.RoleRepository;
 import io.ncapsulate.letsbet.repository.UserRepository;
 import io.ncapsulate.letsbet.security.jwt.JwtUtils;
 import io.ncapsulate.letsbet.security.services.UserDetailsImpl;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

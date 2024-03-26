@@ -7,7 +7,6 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -23,7 +22,7 @@ public class BetSlip {
     @JsonBackReference
     private User user;
 
-    @OneToMany(mappedBy = "betSlip", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "betSlip", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference
     private Set<BetOption> selectedBets = new HashSet<>();
 
@@ -31,6 +30,10 @@ public class BetSlip {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
     private Date createdAt;
+
+    private int totalCorrectBets;
+
+    private boolean isCompleted;
 
     public BetSlip() {
     }
@@ -81,6 +84,26 @@ public class BetSlip {
                 totalCorrectBets++;
             }
         }
+        setTotalCorrectBets(totalCorrectBets);
         return totalCorrectBets;
     }
+
+    public void setTotalCorrectBets(int totalCorrectBets){this.totalCorrectBets = totalCorrectBets;}
+
+    public boolean getIsCompleted(){
+        boolean isCompleted = true;
+        for (BetOption betOption : selectedBets) {
+            if (!betOption.isCompleted()) {
+                isCompleted = false;
+                break;
+            }
+        }
+        setIsCompleted(isCompleted);
+        return isCompleted;
+    }
+
+    public void setIsCompleted(boolean completed) {
+        isCompleted = completed;
+    }
+
 }

@@ -1,7 +1,6 @@
 package io.ncapsulate.letsbet.repository;
 
 import io.ncapsulate.letsbet.models.BetSlip;
-import io.ncapsulate.letsbet.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,6 +17,7 @@ public interface BetSlipRepository extends JpaRepository<BetSlip, Long> {
 
     BetSlip findBetSlipById(Long id);
 
-    @Query("SELECT bs FROM BetSlip bs JOIN FETCH bs.selectedBets WHERE bs.user.username = :username AND bs.createdAt = :createdAt")
-    List<BetSlip> findByUsernameAndCreatedAt(@Param("username") String username, Date createdAt);
+    @Query("SELECT bs FROM BetSlip bs JOIN FETCH bs.selectedBets WHERE bs.user.username = :username " +
+            "AND DATE(bs.createdAt) = DATE(:createdAt)")
+    List<BetSlip> findByUsernameAndCreatedAt(@Param("username") String username, @Param("createdAt") Date createdAt);
 }

@@ -1,35 +1,42 @@
 package io.ncapsulate.letsbet.services;
 
-import io.ncapsulate.letsbet.models.BetSlip;
-import io.ncapsulate.letsbet.models.Matchup;
-import io.ncapsulate.letsbet.models.MatchupStatus;
-import io.ncapsulate.letsbet.models.User;
+import io.ncapsulate.letsbet.models.*;
 import io.ncapsulate.letsbet.payload.request.MatchupRequest;
 import io.ncapsulate.letsbet.repository.BetSlipRepository;
 import io.ncapsulate.letsbet.repository.MatchupRepository;
 import io.ncapsulate.letsbet.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.hibernate.Hibernate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 public class MatchupService {
 
-    private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    private final MatchupRepository matchupRepository;
-    private final BetOptionService betOptionService;
+    @Autowired
+    private MatchupRepository matchupRepository;
+    @Autowired
+    private BetOptionService betOptionService;
+    @Autowired
+    private OddsService oddsService;
 
-    private final BetSlipRepository betSlipRepository;
+    @Autowired
+    private BetSlipService betSlipService;
 
-    public MatchupService(MatchupRepository matchupRepository, UserRepository userRepository, BetOptionService betOptionService, BetSlipRepository betSlipRepository) {
-        this.matchupRepository = matchupRepository;
-        this.userRepository = userRepository;
-        this.betOptionService = betOptionService;
-        this.betSlipRepository = betSlipRepository;
-    }
+    @Autowired
+    private BetSlipRepository betSlipRepository;
+
+    private static final Logger logger = LoggerFactory.getLogger(MatchupService.class);
 
     // Method to create a new matchup
     public Matchup createMatchup(User user1, User user2, BetSlip betSlipUser1, BetSlip betSlipUser2) {
@@ -41,14 +48,25 @@ public class MatchupService {
         return matchupRepository.save(matchup);
     }
 
+    private BetSlip initializeBetSlip(BetSlip betSlip) {
+        if (!Hibernate.isInitialized(betSlip)) {
+            Hibernate.initialize(betSlip);
+        }
+        return betSlip;
+    }
+
 
     //Method to update Matchup with Results
-    public void updateMatchupResults(Matchup matchup){
+    @Transactional
+    public void updateMatchupResult(Matchup matchup){
+
+        // Initialize the proxy objects to avoid LazyInitializationException
+        BetSlip betSlipUser1 = initializeBetSlip(matchup.getBetSlipUser1());
+        BetSlip betSlipUser2 = initializeBetSlip(matchup.getBetSlipUser2());
 
         // Calculate total correct bets for each user's bet slip
-        int user1CorrectBets = matchup.getBetSlipUser1().getTotalCorrectBets();
-        int user2CorrectBets = matchup.getBetSlipUser2().getTotalCorrectBets();
-
+        int user1CorrectBets = betSlipUser1.getTotalCorrectBets();
+        int user2CorrectBets = betSlipUser2.getTotalCorrectBets();
 
         // Set the correct bets count in the matchup entity
         matchup.setUser1CorrectBets(user1CorrectBets);
@@ -64,8 +82,34 @@ public class MatchupService {
             matchup.setWinner(null); // or set to a special value indicating a tie
         }
 
+//         Check if all games are completed for both bet slips
+        boolean isBetSlipUser1Completed = betSlipUser1.getIsCompleted();
+        boolean isBetSlipUser2Completed = betSlipUser2.getIsCompleted();
+
+        // If both bet slips have all games completed, set matchup status to completed
+        if (isBetSlipUser1Completed && isBetSlipUser2Completed) {
+            matchup.setStatus(MatchupStatus.COMPLETED);
+        } else {
+            // If not all games are completed, keep the status unchanged or handle other transitions as needed
+            logger.info("Reached else completed statement");
+        }
+
         // Save or update the matchup entity in the repository
-        matchupRepository.save(matchup);
+        try {
+            matchupRepository.save(matchup);
+        } catch (DataIntegrityViolationException e) {
+            // Handle the error gracefully, such as logging the exception
+            // This error might occur due to data truncation in the status column
+            // Ensure the status column in the matchups table has enough length to store the enum values
+            logger.info("Reached Data integrity error");
+        }
+    }
+
+    public void updateMatchupResults() {
+        List<Matchup> acceptedMatchups = matchupRepository.findAcceptedMatchups();
+        for (Matchup matchup : acceptedMatchups) {
+            updateMatchupResult(matchup);
+        }
     }
 
     //Method to send Matchup Request
@@ -118,6 +162,13 @@ public class MatchupService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
         return user.getUsername();
+    }
+
+    public List<Matchup> getActiveMatchups(Long userId) {
+        return matchupRepository.findActiveMatchups(userId, MatchupStatus.ACCEPTED);
+    }
+    public List<Matchup> getCompletedMatchups(Long userId) {
+        return matchupRepository.findCompletedMatchups(userId, MatchupStatus.ACCEPTED);
     }
 
 }

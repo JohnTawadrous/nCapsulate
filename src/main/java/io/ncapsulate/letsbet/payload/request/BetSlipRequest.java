@@ -2,8 +2,6 @@ package io.ncapsulate.letsbet.payload.request;
 
 import io.ncapsulate.letsbet.models.BetOption;
 import jakarta.validation.constraints.NotBlank;
-
-import java.util.List;
 import java.util.Set;
 
 public class BetSlipRequest {

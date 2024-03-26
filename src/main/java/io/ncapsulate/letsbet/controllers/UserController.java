@@ -4,11 +4,9 @@ import io.ncapsulate.letsbet.models.User;
 import io.ncapsulate.letsbet.payload.response.UserAccountResponse;
 import io.ncapsulate.letsbet.repository.UserRepository;
 import io.ncapsulate.letsbet.security.services.UserDetailsImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

@@ -1,6 +1,5 @@
 package io.ncapsulate.letsbet.controllers;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.ncapsulate.letsbet.models.Matchup;
 import io.ncapsulate.letsbet.payload.request.MatchupRequest;
 import io.ncapsulate.letsbet.repository.MatchupRepository;
@@ -16,10 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
-//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @RestController
 @RequestMapping("/api/matchups")
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -97,6 +93,18 @@ public class MatchupController {
     public ResponseEntity<String> getUsernameById(@PathVariable Long userId) {
         String username = matchupService.getUsernameById(userId);
         return ResponseEntity.ok(username);
+    }
+
+    @GetMapping("/active/{userId}")
+    public ResponseEntity<List<Matchup>> getActiveMatchups(@PathVariable Long userId) {
+        List<Matchup> activeMatchups = matchupService.getActiveMatchups(userId);
+        return ResponseEntity.ok(activeMatchups);
+    }
+
+    @GetMapping("/completed/{userId}")
+    public ResponseEntity<List<Matchup>> getCompletedMatchups(@PathVariable Long userId) {
+        List<Matchup> completedMatchups = matchupService.getCompletedMatchups(userId);
+        return ResponseEntity.ok(completedMatchups);
     }
 
 }

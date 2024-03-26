@@ -6,6 +6,7 @@ import io.ncapsulate.letsbet.models.BetSlip;
 import io.ncapsulate.letsbet.models.BetType;
 import io.ncapsulate.letsbet.models.User;
 import io.ncapsulate.letsbet.payload.request.BetSlipRequest;
+import io.ncapsulate.letsbet.payload.response.BetSlipResponse;
 import io.ncapsulate.letsbet.payload.response.UserInfoResponse;
 import io.ncapsulate.letsbet.repository.UserRepository;
 import io.ncapsulate.letsbet.security.jwt.JwtUtils;
@@ -88,14 +89,15 @@ public class BetSlipController {
 
         betSlipService.saveBetSlip(betSlipRequest.getUsername(), selectedBets);
 
-//        betSlipService.saveBetSlip(betSlipRequest.getUsername(), betSlipRequest.getSelectedBets());
-
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                .body(new UserInfoResponse(userDetails.getId(),
+                .header("Bet-Slip-ID", String.valueOf(betSlip.getId()))
+                .body(new BetSlipResponse(
+                        userDetails.getId(),
                         userDetails.getUsername(),
                         userDetails.getEmail(),
-                        roles));
-
+                        roles,
+                        betSlip.getId()
+                        ));
     }
 
     @GetMapping("/saved")
@@ -113,7 +115,6 @@ public class BetSlipController {
 
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                     .body(betSlips);
-
     }
 
     @GetMapping("/saved-today")
@@ -131,7 +132,13 @@ public class BetSlipController {
 
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                 .body(betSlips);
+    }
 
+    @GetMapping("/betslip-details")
+    public BetSlip getBetSlipById(@RequestParam("id") Long id){
+
+        BetSlip betSlip = betSlipService.getBetSlip(id);
+        return betSlip;
     }
 
 }

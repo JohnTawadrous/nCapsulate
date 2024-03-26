@@ -29,6 +29,8 @@ public class BetOption {
 
     private boolean isCorrect;
 
+    private boolean isCompleted;
+
     @Enumerated(EnumType.STRING)
     private BetType betType;
 
@@ -128,5 +130,13 @@ public class BetOption {
 
     public void setMarketKey(String marketKey) {
         this.marketKey = marketKey;
+    }
+
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
     }
 }

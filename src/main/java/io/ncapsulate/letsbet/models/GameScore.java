@@ -1,6 +1,10 @@
 package io.ncapsulate.letsbet.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.ncapsulate.letsbet.services.BetOptionService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +15,17 @@ public class GameScore {
 
     private String commenceTime;
     private boolean completed;
+    @JsonProperty("home_team")
     private String homeTeam;
+    @JsonProperty("away_team")
     private String awayTeam;
     private List<Score> scores;
     private String lastUpdate;
 
     private String sportKey;
 
+
+    private static final Logger logger = LoggerFactory.getLogger(GameScore.class);
 
     public GameScore(){
 
@@ -97,6 +105,10 @@ public class GameScore {
         this.sportKey = sportKey;
     }
 
+    public String getScoreName(int index) {
+        return scores.get(index).getName();
+    }
+
     public int getTotalScore() {
         int total = 0;
 
@@ -110,8 +122,11 @@ public class GameScore {
         return total;
     }
 
-    // Method to get the spread
     public int getSpread() {
+        if (scores == null || scores.size() < 2) {
+            return 0; // or handle the case appropriately based on your requirements
+        }
+
         // Assuming first score is home team and second score is away team
         return scores.get(0).getScore() - scores.get(1).getScore();
     }

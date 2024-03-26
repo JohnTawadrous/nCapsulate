@@ -14,8 +14,15 @@ public interface MatchupRepository extends JpaRepository<Matchup, Long> {
 
     Matchup findMatchupById (Long id);
 
+    @Query("SELECT m FROM Matchup m WHERE m.status = 'ACCEPTED'")
+    List<Matchup> findAcceptedMatchups();
 
-//    @Query("SELECT * FROM lets_bet_db.matchups WHERE user1_id = :id OR user2_id = :id AND status = 'PENDING'")
     @Query("SELECT m FROM Matchup m WHERE (m.user2.id = :id) AND m.status = 'PENDING'")
     List<Matchup> findPendingMatchupRequestsByUserId(@Param("id") Long id);
+
+    @Query("SELECT m FROM Matchup m WHERE (m.user1.id = :userId OR m.user2.id = :userId) AND m.status = :status")
+    List<Matchup> findActiveMatchups(@Param("userId") Long userId, @Param("status") MatchupStatus status);
+
+    @Query("SELECT m FROM Matchup m WHERE (m.user1.id = :userId OR m.user2.id = :userId) AND m.status = :status")
+    List<Matchup> findCompletedMatchups(@Param("userId") Long userId, @Param("status") MatchupStatus status);
 }
