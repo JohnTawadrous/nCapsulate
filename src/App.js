@@ -7,6 +7,8 @@ import UserPage from './Components/UserPage/UserPage.jsx'
 import LiveOdds from './Components/LiveOdds/LiveOdds.jsx';
 import BetSlipsComponent from './Components/BetSlips/BetSlips.jsx';
 import FriendlyMatch from './Components/FriendlyMatch/FriendlyMatch.jsx';
+import Matchups from './Components/Matchups/Matchups.jsx';
+
 
 function App() {
   return (
@@ -19,6 +21,7 @@ function App() {
         <Route path="/live-odds" element={<LiveOdds />} />
         <Route path="/savedslips" element={<BetSlipsComponent />} />
         <Route path="/friendly-match" element={<FriendlyMatch />} />
+        <Route path="/matchups" element={<Matchups />} />
         {/* Add other routes if needed */}
       </Routes>
     </div>

@@ -1,0 +1,83 @@
+.wrapper-friendly-match {
+    width: 600px;
+    background: rgba(0, 0, 0, 0.650);
+    border: 2px solid rgba(255, 255, 255, .2);
+    backdrop-filter: blur(30px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    color: #fff;
+    border-radius: 10px;
+    padding: 30px 40px;
+    font-size: 20px;
+}
+
+.wrapper-friendly-match .input-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin-top: 20px;
+    margin: 30px 0;
+    ::placeholder {
+      opacity: 0.5;
+    }
+}
+
+.send-match-button{
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: rgb(212, 131, 8);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.view-slip-button{
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: rgb(212, 131, 8);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.create-slip-button{
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: rgb(212, 131, 8);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.wrapper-friendly-match select {
+    appearance: none;
+    border: 5px;
+    outline: 0;
+    background-color: rgba(207, 207, 207, 0.664);
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+    box-shadow: none;
+    border-radius: 10px;
+
+  }
+
+  .bet-slip-options{
+    background-color: rgba(0, 0, 0, 0.151);
+    border-radius: 10px;
+  }
+
+  select::-ms-expand {
+    /* display: none; */
+    border-radius: 10px;
+    background-color: rgba(241, 10, 10, 0.411);
+  }
+
+  

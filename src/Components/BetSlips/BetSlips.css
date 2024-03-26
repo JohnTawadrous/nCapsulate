@@ -3,6 +3,7 @@
 }
 
 .bet-slip-grid{
+    margin-left: 20px;
     width: 80%;
     display: flex;
     flex-wrap: wrap;
@@ -10,7 +11,9 @@
 }
 
 .bet-slip-box{
-    width: calc(40% - 40px);
+    width: auto;
+    max-width: 200px;
+    height: 150px;
     margin-bottom: 20px;
     background: transparent;
     border: 2px solid rgba(255, 255, 255, .2);
@@ -19,4 +22,30 @@
     color: #fff;
     border-radius: 10px;
     padding: 10px 10px;
+}
+
+.details-modal{
+    width: 600px;
+    background: rgba(0, 0, 0, 0.650);
+    border: 2px solid rgba(255, 255, 255, .2);
+    backdrop-filter: blur(30px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    color: #fff;
+    border-radius: 10px;
+    padding: 30px 40px;
+    font-size: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.view-betslip-details-button{
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: rgb(212, 131, 8);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
 }

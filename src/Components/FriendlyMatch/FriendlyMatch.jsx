@@ -1,18 +1,27 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import AuthService from '../Utils/AuthService';
 import UserService from '../Utils/UserService';
+import MenuBar from '../MenuBar/MenuBar';
+import BetSlipDetailsModal from '../Modal/BetSlipDetailsModal';
+import './FriendlyMatch.css' ;
 
 const FriendlyMatch = () => {
+    const [username, setUsername] = useState('');
     const [opponentUsername, setOpponentUsername] = useState('');
     const [selectedBetslip, setSelectedBetslip] = useState(null);
     const [betSlips, setBetSlips] = useState([]);
+    const [showBetSlipDetails, setShowBetSlipDetails] = useState(false); // State to control the visibility of bet slip details modal
+    const [selectedBetSlipDetails, setSelectedBetSlipDetails] = useState(null); // State to store details of the selected bet slip
 
     useEffect(() => {
         // Fetch user's saved betslips
         const fetchSavedBetslips = async () => {
             try {
                 const currentUser = AuthService.getCurrentUser();
-                const betSlipsData = await UserService.getSavedBetSlips(currentUser.username);
+                setUsername(currentUser.username);
+                const currentDate = new Date();
+                const betSlipsData = await UserService.getSavedBetSlipsToday(currentUser.username, currentDate);
                 setBetSlips(betSlipsData.data);
             } catch (error) {
                 console.error("Error getting Bet Slips");
@@ -47,27 +56,59 @@ const FriendlyMatch = () => {
         }
     };
 
+    // Function to handle viewing bet slip details
+    const handleViewBetSlipDetails = (betslip) => {
+        setSelectedBetSlipDetails(betslip);
+        setShowBetSlipDetails(true);
+    };
+
+    // Function to close bet slip details modal
+    const handleCloseBetSlipDetails = () => {
+        setShowBetSlipDetails(false);
+    };
+
+
     return (
         <div>
+            <MenuBar username={username} />
             <h1>Friendly Match</h1>
-            <label>
-                Opponent's Username:
-                <input type="text" value={opponentUsername} onChange={handleOpponentUsernameChange} />
-            </label>
-            <br />
-            <label>
-                Select Your Betslip:
-                <select value={selectedBetslip} onChange={handleBetslipSelection}>
-                    <option value="">Select Betslip</option>
-                    {betSlips.map((betslip) => (
-                        <option key={betslip.id} value={betslip.id}>
-                            {betslip.id} {/* Adjust this based on the structure of your betslip object */}
-                        </option>
-                    ))}
-                </select>
-            </label>
-            <br />
-            <button onClick={handleSendMatchupRequest}>Send Matchup Request</button>
+            <div className='wrapper-friendly-match'>
+                <div className='input-box'>
+                    Opponent's Username:
+                    <input type="text" placeholder='Enter Opponent Username' value={opponentUsername} onChange={handleOpponentUsernameChange} />
+                </div>
+                <br />
+                <label className="select">
+            
+                    <select value={selectedBetslip} onChange={handleBetslipSelection}>
+                        
+                        <option value="">Select Betslip</option>
+                        {betSlips.map((betslip) => (
+                            <option className='bet-slip-options' key={betslip.id} value={betslip.id}>
+                                {betslip.id} {/* Adjust this based on the structure of your betslip object */}
+                            </option>
+                        ))}
+                    </select>
+                    
+                </label>
+                <br />
+                <button className='send-match-button' onClick={handleSendMatchupRequest}>Send Matchup Request</button>
+                
+                {/* Button to view bet slip details */}
+                {selectedBetslip && (
+                    <button className='view-slip-button' onClick={() => handleViewBetSlipDetails(selectedBetslip)}>View Bet Slip Details</button>
+                )}
+                <Link to="/live-odds">
+                    <button className='create-slip-button' >Create New BetSlip</button>
+                </Link>
+
+                {/* Modal to display bet slip details */}
+                <BetSlipDetailsModal
+                    isOpen={showBetSlipDetails}
+                    betSlip={selectedBetSlipDetails}
+                    onClose={handleCloseBetSlipDetails}
+                />
+            </div>
         </div>
     );
 };

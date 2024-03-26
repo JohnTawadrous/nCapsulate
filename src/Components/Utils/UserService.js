@@ -55,6 +55,18 @@ const getSavedBetSlips = (username) => {
   });
 };
 
+const getBetSlip = (id) => {
+  return axios.get("http://localhost:8080/api/betslips/betslip-details", {
+    params: { id: id }
+  });
+};
+
+const getSavedBetSlipsToday = (username, createdAt) => {
+  return axios.get("http://localhost:8080/api/betslips/saved-today", {
+    params: { username: username, createdAt: createdAt  }
+  });
+};
+
 const getPendingMatchupRequests = (username) => {
   return axios.get("http://localhost:8080/api/matchups/pending", {
     params: { username: username }
@@ -82,6 +94,8 @@ const UserService = {
   declineMatchup,
   getPendingMatchupRequests,
   getUsernameById,
+  getSavedBetSlipsToday,
+  getBetSlip,
 }
 
 export default UserService;

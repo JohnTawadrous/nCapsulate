@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import AuthService from '../Utils/AuthService';
 import Navbar from '../Navbar/Navbar';
 import UserService from '../Utils/UserService';
+import './UserPage.css' ;
+import BetSlipDetailsModal from '../Modal/BetSlipDetailsModal';
 
 const UserPage = () => {
   // const { username } = useParams();
@@ -12,6 +14,8 @@ const UserPage = () => {
   const [betSlips, setBetSlips] = useState([]);
   const [selectedBetslip, setSelectedBetslip] = useState(null);
   const [selectedBetSlipId, setSelectedBetSlipId] = useState(null);
+  const [showBetSlipDetails, setShowBetSlipDetails] = useState(false);
+  const [selectedBetSlipDetails, setSelectedBetSlipDetails] = useState(null);
 
   const fetchMatchupRequests = async () => {
     try {
@@ -51,7 +55,8 @@ const UserPage = () => {
     const fetchSavedBetslips = async () => {
         try {
             const currentUser = AuthService.getCurrentUser();
-            const betSlipsData = await UserService.getSavedBetSlips(currentUser.username);
+            const currentDate = new Date();
+            const betSlipsData = await UserService.getSavedBetSlipsToday(currentUser.username, currentDate);
             setBetSlips(betSlipsData.data);
         } catch (error) {
             console.error("Error getting Bet Slips");
@@ -61,15 +66,21 @@ const UserPage = () => {
     fetchSavedBetslips();
 }, []);
 
-  // const handleBetslipSelection = (e) => {
-  //   setSelectedBetslip(e.target.value);
-  // };
-
   const handleBetslipSelection = (e) => {
     const selectedId = e.target.value;
     setSelectedBetslip(selectedId);
     setSelectedBetSlipId(selectedId);
   };
+
+  const handleViewBetSlipDetails = (betslip) => {
+    setSelectedBetSlipDetails(betslip);
+    setShowBetSlipDetails(true);
+};
+
+    // Function to close bet slip details modal
+    const handleCloseBetSlipDetails = () => {
+        setShowBetSlipDetails(false);
+    };
 
   const handleDeclineMatchup = async (matchupId, selectedBetSlipId) => {
       try {
@@ -99,16 +110,16 @@ const UserPage = () => {
           {loading ? (
               <p>Loading...</p>
           ) : (
-              <ul>
+              <div>
                   {matchupRequests.length === 0 ? (
                       <p>No pending matchup requests.</p>
                   ) : (
                       matchupRequests.map((request) => (
-                          <li key={request.id}>
+                          <div className='matchup-request-box' key={request.id}>
                               <div>From: {request.user1.username}</div>
 
-                              <label>
-                                  Select Your Betslip:
+                              <label className="select">
+                                  {/* Select Your Betslip: */}
                                   <select value={selectedBetslip} onChange={handleBetslipSelection}>
                                       <option value="">Select Betslip</option>
                                       {betSlips.map((betslip) => (
@@ -118,13 +129,24 @@ const UserPage = () => {
                                       ))}
                                   </select>
                               </label>
-                              <div>Bet Slip: {request.betSlipUser1.id}</div>
-                              <button onClick={() => handleAcceptMatchup(request.id, selectedBetSlipId)}>Accept</button>
-                              <button onClick={() => handleDeclineMatchup(request.id)}>Decline</button>
-                          </li>
+                              {/* <div>Bet Slip: {request.betSlipUser1.id}</div> */}
+                              {/* Button to view bet slip details */}
+                                {selectedBetslip && (
+                                    <button className='view-slip-button' onClick={() => handleViewBetSlipDetails(selectedBetslip)}>View Bet Slip Details</button>
+                                )}
+                              <button className='accept-match-button' onClick={() => handleAcceptMatchup(request.id, selectedBetSlipId)}>Accept</button>
+                              <button className='decline-match-button' onClick={() => handleDeclineMatchup(request.id)}>Decline</button>
+
+                              {/* Modal to display bet slip details */}
+                                <BetSlipDetailsModal
+                                    isOpen={showBetSlipDetails}
+                                    betSlip={selectedBetSlipDetails}
+                                    onClose={handleCloseBetSlipDetails}
+                                />
+                          </div>
                       ))
                   )}
-              </ul>
+              </div>
           )}
       </div>
   );

@@ -8,7 +8,7 @@ const Navbar = () => {
         <ul>
             <li><NavbarItem to="/live-odds" label="Browse Odds" /></li>
             <li><NavbarItem to="/friendly-match" label="Friendly Match" /></li>
-            <li><NavbarItem to="/classic-match" label="Classic Match" /></li>
+            <li><NavbarItem to="/matchups" label="Matchups" /></li>
             <li><NavbarItem to="/savedslips" label="Saved Slips" /></li>
             <li><NavbarItem to="/logout" label="Settings" /></li>
         </ul>

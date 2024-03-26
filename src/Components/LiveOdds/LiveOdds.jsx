@@ -13,8 +13,9 @@ const LiveOdds = () => {
   const [selectedSpreadOptions, setSelectedSpreadOptions] = useState({});
   const [selectedOverUnderOptions, setSelectedOverUnderOptions] = useState({});
   const [username, setUsername] = useState('');
-  const [funds, setFunds] = useState('$1000');
   const jwtToken = localStorage.getItem("jwtToken")
+  const [successMessage, setSuccessMessage] = useState('');
+  const [betSlipId, setBetSlipId] = useState('');
 
   useEffect(() => {
     // Fetch live odds
@@ -25,7 +26,7 @@ const LiveOdds = () => {
 
         // Set username and funds based on user data
         setUsername(currentUser.username);
-        setFunds(1000);
+        
         
         const response = await UserService.getLiveOdds();
 
@@ -78,32 +79,7 @@ const handleOverUnderSelection = (gameId, outcome, homeTeam, awayTeam, selected,
 };
 
 const handleConfirmBet = async () => {
-  // if (Object.keys(selectedSpreadOptions).length === 0 && Object.keys(selectedOverUnderOptions).length === 0) {
-  //   console.log('No selections made. Please select some options before confirming the bet.');
-  //   return;
-  // }
-
-  // const unselectedOptions = Object.values(selectedSpreadOptions)
-  //   .concat(Object.values(selectedOverUnderOptions))
-  //   .filter(option => !option.selected);
-
-  // // If there are unselected options, display an error message
-  // if (unselectedOptions.length > 0) {
-  //   console.log('Please select options for all games before confirming the bet.');
-  //   return;
-  // }
-
-  // Check if there are any games without selections
-  // const gamesWithoutSelections = liveOdds.filter(game =>
-  //   !(selectedSpreadOptions[game.id]?.selected || selectedOverUnderOptions[game.id]?.selected)
-  // );
-
-  // // If there are games without selections, display an error message
-  // if (gamesWithoutSelections.length > 0) {
-  //   console.log('Please select options for all games before confirming the bet.');
-  //   return;
-  // }
-
+  // Check if there are any games without selections for both spread and over/under
   const gamesWithoutSelections = liveOdds.filter(game => {
     const spreadSelected = selectedSpreadOptions[game.id]?.selected;
     const overUnderSelected = selectedOverUnderOptions[game.id]?.selected;
@@ -143,7 +119,13 @@ const handleConfirmBet = async () => {
       selectedBets
     };
 
-    await axios.post('http://localhost:8080/api/betslips/save', betSlipRequest);
+    const response = await axios.post('http://localhost:8080/api/betslips/save', betSlipRequest);
+
+    setSuccessMessage('Bet slip saved successfully');
+    setBetSlipId(response.data.betSlipId);
+
+    setSelectedSpreadOptions({});
+    setSelectedOverUnderOptions({});
 
     console.log('Bet slip saved successfully');
   } catch (error) {
@@ -154,7 +136,10 @@ const handleConfirmBet = async () => {
   return (
 
 <div>
-    <MenuBar username={username} funds={funds} />
+    <MenuBar username={username} />
+    <div className='success-message'>
+      {successMessage && <p>Bet slip saved successfully. Bet slip ID: {betSlipId}</p>}
+      </div>
     <div className='container'>
         <div className="games-grid">
           {liveOdds !== null ? (
@@ -207,6 +192,7 @@ const handleConfirmBet = async () => {
             <p>Loading live odds...</p>
           )}
         </div>
+        
         <Sidebar
           selectedSpreadOptions={selectedSpreadOptions}
           selectedOverUnderOptions={selectedOverUnderOptions}
