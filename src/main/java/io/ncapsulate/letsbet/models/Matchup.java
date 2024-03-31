@@ -24,12 +24,10 @@ public class Matchup {
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "betslip_user1_id", referencedColumnName = "id")
-    @JsonIgnore
     private BetSlip betSlipUser1;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "betslip_user2_id", referencedColumnName = "id")
-    @JsonIgnore
     private BetSlip betSlipUser2;
 
     @ManyToOne(fetch = FetchType.LAZY)

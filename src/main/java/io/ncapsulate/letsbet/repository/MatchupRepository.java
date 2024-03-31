@@ -21,8 +21,8 @@ public interface MatchupRepository extends JpaRepository<Matchup, Long> {
     List<Matchup> findPendingMatchupRequestsByUserId(@Param("id") Long id);
 
     @Query("SELECT m FROM Matchup m WHERE (m.user1.id = :userId OR m.user2.id = :userId) AND m.status = :status")
-    List<Matchup> findActiveMatchups(@Param("userId") Long userId, @Param("status") MatchupStatus status);
+    List<Matchup> findActiveMatchupsByUserId(@Param("userId") Long userId, @Param("status") MatchupStatus status);
 
     @Query("SELECT m FROM Matchup m WHERE (m.user1.id = :userId OR m.user2.id = :userId) AND m.status = :status")
-    List<Matchup> findCompletedMatchups(@Param("userId") Long userId, @Param("status") MatchupStatus status);
+    List<Matchup> findCompletedMatchupsByUserId(@Param("userId") Long userId, @Param("status") MatchupStatus status);
 }

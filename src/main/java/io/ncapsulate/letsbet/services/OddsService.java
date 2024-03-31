@@ -12,6 +12,9 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,13 +34,29 @@ public class OddsService {
 
 
     public String getLiveOdds() {
-        String apiUrl = "https://api.the-odds-api.com/v4/sports/basketball_nba/odds/?apiKey=" + apiKey + "&regions=us&markets=spreads,totals&oddsFormat=decimal&bookmakers=draftkings";
+        // Get tomorrow's date and time at 3:00 AM
+        LocalDateTime tomorrow3AM = LocalDateTime.now(ZoneId.of("America/New_York")).plusDays(1).withHour(3).withMinute(0).withSecond(0);
+
+        // Format the tomorrow's date to ISO 8601 format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        String tomorrow3AMString = tomorrow3AM.format(formatter);
+
+        // Construct the commenceTimeTo parameter
+        String commenceTimeTo = tomorrow3AMString;
+
+        // Get today's date in ISO 8601 format
+        LocalDateTime today = LocalDateTime.now(ZoneId.of("America/New_York"));
+        String todayString = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+        // Construct the API URL with commenceTimeFrom and commenceTimeTo parameters
+        String apiUrl = "https://api.the-odds-api.com/v4/sports/basketball_nba/odds/?apiKey=" + apiKey + "&regions=us&markets=spreads,totals&oddsFormat=decimal&bookmakers=draftkings&commenceTimeFrom=" + todayString + "T00:00:00Z&commenceTimeTo=" + commenceTimeTo;
+
         return restTemplate.getForObject(apiUrl, String.class);
     }
 
     public List<GameScore> fetchGameScores() throws Exception{
         logger.info("Fetching game scores...");
-        String apiUrl = "https://api.the-odds-api.com/v4/sports/basketball_nba/scores/?daysFrom=1&apiKey=" + apiKey;
+        String apiUrl = "https://api.the-odds-api.com/v4/sports/basketball_nba/scores/?daysFrom=2&apiKey=" + apiKey;
         HttpClient client = HttpClient.newHttpClient();
 
         // Create an HttpRequest to the API endpoint

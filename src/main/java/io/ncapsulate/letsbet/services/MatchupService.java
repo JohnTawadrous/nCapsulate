@@ -72,36 +72,34 @@ public class MatchupService {
         matchup.setUser1CorrectBets(user1CorrectBets);
         matchup.setUser2CorrectBets(user2CorrectBets);
 
-        // Determine the winner based on correct bets count
-        if (user1CorrectBets > user2CorrectBets) {
-            matchup.setWinner(matchup.getUser1());
-        } else if (user1CorrectBets < user2CorrectBets) {
-            matchup.setWinner(matchup.getUser2());
-        } else {
-            // Handle tie if necessary
-            matchup.setWinner(null); // or set to a special value indicating a tie
-        }
-
-//         Check if all games are completed for both bet slips
+        // Check if all games are completed for both bet slips
         boolean isBetSlipUser1Completed = betSlipUser1.getIsCompleted();
         boolean isBetSlipUser2Completed = betSlipUser2.getIsCompleted();
 
-        // If both bet slips have all games completed, set matchup status to completed
+        // If both bet slips have all games completed, set matchup status to completed and determine the winner
         if (isBetSlipUser1Completed && isBetSlipUser2Completed) {
+            // Determine the winner based on correct bets count
+            if (user1CorrectBets > user2CorrectBets) {
+                matchup.setWinner(matchup.getUser1());
+            } else if (user1CorrectBets < user2CorrectBets) {
+                matchup.setWinner(matchup.getUser2());
+            } else {
+                // Handle tie if necessary
+                matchup.setWinner(null); // or set to a special value indicating a tie
+            }
             matchup.setStatus(MatchupStatus.COMPLETED);
         } else {
             // If not all games are completed, keep the status unchanged or handle other transitions as needed
-            logger.info("Reached else completed statement");
+            matchup.setWinner(null);
+            logger.info("Not all games completed yet");
         }
 
         // Save or update the matchup entity in the repository
         try {
             matchupRepository.save(matchup);
         } catch (DataIntegrityViolationException e) {
-            // Handle the error gracefully, such as logging the exception
-            // This error might occur due to data truncation in the status column
-            // Ensure the status column in the matchups table has enough length to store the enum values
-            logger.info("Reached Data integrity error");
+
+            logger.error("Error saving matchup:", e);
         }
     }
 
@@ -165,10 +163,12 @@ public class MatchupService {
     }
 
     public List<Matchup> getActiveMatchups(Long userId) {
-        return matchupRepository.findActiveMatchups(userId, MatchupStatus.ACCEPTED);
+        List<Matchup> activeMatchups = matchupRepository.findActiveMatchupsByUserId(userId, MatchupStatus.ACCEPTED);
+
+        return activeMatchups;
     }
     public List<Matchup> getCompletedMatchups(Long userId) {
-        return matchupRepository.findCompletedMatchups(userId, MatchupStatus.ACCEPTED);
+        return matchupRepository.findCompletedMatchupsByUserId(userId, MatchupStatus.COMPLETED);
     }
 
 }
