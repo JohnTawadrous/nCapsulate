@@ -29,9 +29,12 @@ const Sidebar = ({ selectedSpreadOptions, selectedOverUnderOptions, onConfirmBet
   }, [selectedSpreadOptions, selectedOverUnderOptions]);
 
   return (
-    <div className={`sidebar ${selectionCount > 0 ? 'has-content' : ''}`} 
-      style={{ height: `${selectionCount * 125}px`, minHeight: '300px' }}>
-      <h2>My Selections</h2>
+    <div className='sidebar'>
+    <div className={`sidebar-content ${selectionCount > 0 ? 'has-content' : ''}`} 
+      style={{ height: `${selectionCount * 125}px`, minHeight: '300px' , maxHeight: '900px'}}>
+        
+      <h2>Current Selections</h2>
+      <hr className="separator" />
       {Object.keys(groupedSelections).map((gameId) => (
         <div key={gameId} className="game-selection">
           <h3>{groupedSelections[gameId].homeTeam} vs {groupedSelections[gameId].awayTeam}</h3>
@@ -42,10 +45,16 @@ const Sidebar = ({ selectedSpreadOptions, selectedOverUnderOptions, onConfirmBet
               </li>
             ))}
           </ul>
+          <hr className="separator" />
         </div>
       ))}
-      <button className="confirm-button" onClick={onConfirmBet}>Confirm Selections</button>
+      
     </div>
+      <div>
+          <button className="confirm-button" onClick={onConfirmBet}>Confirm Selections</button>
+        </div>
+    </div>
+      
   );
 };
 

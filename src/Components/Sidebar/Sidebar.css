@@ -1,19 +1,28 @@
-.sidebar {
+.sidebar{
+    margin-left: 40px;
+}
+
+.sidebar-content {
     width: 300px;
     height: 200px;
-    background-color: #bbbbbb;
+    background: transparent;
+    background-color: #0097fc50;
+    backdrop-filter: blur(30px);
     padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .7);
     box-sizing: border-box;
-    overflow-y: auto; 
-    
-    margin-left: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.877);
+    overflow: auto;
     border-radius: 10px;
     transition: height 0.3s;
 }
 
-.sidebar.has-content {
+.sidebar-content.has-content {
     height: auto;
+    max-height: 100%;
+    overflow: auto;
   }
+
 
 .confirm-button{
     border: none;
@@ -24,6 +33,6 @@
     color: white; 
     cursor: pointer;
     transition: background-color 0.3s, box-shadow 0.3s; 
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); 
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.7); 
     font-size: 18px;
 }

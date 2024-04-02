@@ -7,7 +7,6 @@ const MenuBar = ({ username }) => {
     <div className="menu-bar">
       <div className="left">
         <Link to="/user/:username">Profile</Link>
-        <Link to="/settings">Settings</Link>
       </div>
       <div className="right">
         <span>{username}</span>

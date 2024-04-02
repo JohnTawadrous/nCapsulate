@@ -1,0 +1,17 @@
+#logout-modal{
+    margin-top: 25px;
+    position: relative;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 20px;
+    border: 3px solid rgba(255, 255, 255, .8);
+}
+
+.logout-buttons{
+    margin: 5px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    color: white;
+}

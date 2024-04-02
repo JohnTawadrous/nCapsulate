@@ -4,14 +4,19 @@
     align-content: center;
     margin-bottom: 20px;
     background-color: rgba(78, 77, 77, 0.63);
-    border: 2px solid rgba(255, 255, 255, .2);
+    border: 2px solid rgba(255, 255, 255, .8);
     backdrop-filter: blur(30px);
-    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .7);
     color: white;
     border-radius: 10px;
     padding: 10px 10px;
     font-size: large;
     margin: 0 auto;
+}
+
+.user-slip-modal{
+  position: relative;
+  margin-top: 200px;
 }
 
 .accept-match-button{
@@ -23,7 +28,7 @@
     color: white;
     cursor: pointer;
     transition: background-color 0.3s, box-shadow 0.3s;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
 }
 
 .decline-match-button{
@@ -35,7 +40,7 @@
     color: white;
     cursor: pointer;
     transition: background-color 0.3s, box-shadow 0.3s;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
 }
 
 select{

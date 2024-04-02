@@ -43,50 +43,65 @@ const BetSlipDetailsModal = ({ isOpen, betSlip, onClose }) => {
          });
         }
 
+        const getColor = (correct) => {
+            if (correct === true) {
+                return 'green';
+            } else if (correct === false) {
+                return 'red';
+            } else {
+                return 'white';
+            }
+        };
+
     return (
         <div className="modal">
         <div className="modal-content">
-        <div className='vertical-space'></div>
-            <h2>Bet Slip Details</h2>
-            {betSlipDetails && (
-                <div>
-                    <p>Bet Slip ID: {betSlipDetails.id}</p>
-                    <div className='vertical-space'></div>
-                    {/* <p>Selected Bets:</p> */}
-                    {Object.keys(groupedBets).map(gameId => {
-                        const gameBets = groupedBets[gameId];
-                        const homeTeam = gameBets[0].homeTeam;
-                        const awayTeam = gameBets[0].awayTeam;
-                        return (
-                            <div key={gameId}>
-                                <div className='teams'> 
-                                    <img src={teamLogos[awayTeam]} alt={awayTeam} className="team-logo" />
-                                    {awayTeam} 
-                            
-                                <span className="horizontal-sapce"></span>
-                                    @ 
-                                <span className="horizontal-sapce"></span>
-                                    <img src={teamLogos[homeTeam]} alt={homeTeam} className="team-logo" />
-                                    {homeTeam}
-                                </div>
-                                <div className='details-box'>
-                                    {gameBets.map((selectedBet, index) => (
-                                        <div className='game-details-box' key={index}>
-                                            <p>{selectedBet.outcome} : {selectedBet.point}</p>
-                                            {/* Render other selected bet details here */}
+            <div className='modal-scrollable-content'>
+                <div className='vertical-space'></div>
+                <h2>Bet Slip Details</h2>
+                {betSlipDetails && (
+                    <div>
+                        <h4>Bet Slip ID: {betSlipDetails.id}</h4>
+                        <div className='vertical-space'></div>
+                        {/* <p>Selected Bets:</p> */}
+                        {Object.keys(groupedBets).map(gameId => {
+                            const gameBets = groupedBets[gameId];
+                            const homeTeam = gameBets[0].homeTeam;
+                            const awayTeam = gameBets[0].awayTeam;
+                            return (
+                                <div key={gameId}>
+                                    <div className='teams'> 
+                                        <div className='away-team'>
+                                            <img src={teamLogos[awayTeam]} alt={awayTeam} className="team-logo" />
+                                            <h4>{awayTeam}</h4>
                                         </div>
-                                    ))}
+                                        @
+                                        <div className='home-team'>
+                                            <img src={teamLogos[homeTeam]} alt={homeTeam} className="team-logo" />
+                                            <br></br>    
+                                            <h4>{homeTeam}</h4>
+                                        </div>
+                                    </div>
+                                    <div className='vertical-space'></div>
+                                    <div className='details-box'>
+                                        {gameBets.map((selectedBet, index) => (
+                                            <div className='game-details-box' key={index}>
+                                                <h5 style={{ color: getColor(selectedBet.correct) }}>{selectedBet.outcome} : {selectedBet.point}</h5>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <hr className="game-separator" />
                                 </div>
-                                <hr className="game-separator" />
-                            </div>
-                        );
-                    })}
-                </div>
-            )}
+                            );
+                        })}
+                    </div>
+                )}
+            </div>
             <button className='close-button' onClick={onClose}>Close</button>
         </div>
     </div>
 );
 };
+
 
 export default BetSlipDetailsModal;

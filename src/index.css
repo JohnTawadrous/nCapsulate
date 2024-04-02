@@ -14,7 +14,7 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: url(./Components/Assets/loginback.jpg)
+  background: url(./Components/Assets/backgroundwood.jpeg)
   no-repeat;
   background-size: cover;
   background-position: center;
@@ -23,4 +23,13 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+button{
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+}
+
+button:hover{
+  color: rgba(0, 0, 0, 0.7);
 }

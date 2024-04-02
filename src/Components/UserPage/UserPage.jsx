@@ -104,19 +104,19 @@ const UserPage = () => {
 
   return (
       <div>
-          <h1>Welcome {username}</h1>
+          <h1>{username}</h1>
           <Navbar />
           <h2>Pending Matchup Requests</h2>
           {loading ? (
               <p>Loading...</p>
           ) : (
-              <div>
+              <div className='request-container'>
                   {matchupRequests.length === 0 ? (
                       <p>No pending matchup requests.</p>
                   ) : (
                       matchupRequests.map((request) => (
                           <div className='matchup-request-box' key={request.id}>
-                              <div>From: {request.user1.username}</div>
+                              <h3>From: {request.user1.username}</h3>
 
                               <label className="select">
                                   {/* Select Your Betslip: */}
@@ -138,16 +138,22 @@ const UserPage = () => {
                               <button className='decline-match-button' onClick={() => handleDeclineMatchup(request.id)}>Decline</button>
 
                               {/* Modal to display bet slip details */}
-                                <BetSlipDetailsModal
-                                    isOpen={showBetSlipDetails}
-                                    betSlip={selectedBetSlipDetails}
-                                    onClose={handleCloseBetSlipDetails}
-                                />
+                              
                           </div>
                       ))
                   )}
+                 
+                    
               </div>
           )}
+           <div className='user-slip-modal'>
+                        <BetSlipDetailsModal
+                            isOpen={showBetSlipDetails}
+                            betSlip={selectedBetSlipDetails}
+                            onClose={handleCloseBetSlipDetails}
+                         />
+                        </div>
+                    
       </div>
   );
 };

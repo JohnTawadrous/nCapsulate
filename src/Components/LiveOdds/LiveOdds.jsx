@@ -15,6 +15,7 @@ const LiveOdds = () => {
   const [username, setUsername] = useState('');
   const jwtToken = localStorage.getItem("jwtToken")
   const [successMessage, setSuccessMessage] = useState('');
+  // const [failureMessage, setFailureMessage] = useState('');
   const [betSlipId, setBetSlipId] = useState('');
 
   useEffect(() => {
@@ -130,6 +131,7 @@ const handleConfirmBet = async () => {
     console.log('Bet slip saved successfully');
   } catch (error) {
     console.error('Error saving bet slip:', error);
+    // setFailureMessage('Failed to save Bet Slip');
   }
 };
 
@@ -145,7 +147,7 @@ const handleConfirmBet = async () => {
           {liveOdds !== null ? (
             liveOdds.map((game) => (
               <div key={game.id} className="game-box">
-                <h3>{game.sport_title}</h3>
+                {/* <h3>{game.sport_title}</h3> */}
                 <p>
                   {new Date(game.commence_time).toLocaleDateString('en-US', {
                     day: 'numeric',
@@ -156,12 +158,12 @@ const handleConfirmBet = async () => {
                     minute: '2-digit',
                   })}
                 </p>
-                <p className='teams'> 
+                <h5 className='teams'> 
                   <img src={teamLogos[game.home_team]} alt={game.home_team} className="team-logo" />
                   {game.home_team} <br /> vs <br />
                   <img src={teamLogos[game.away_team]} alt={game.away_team} className="team-logo" />
                   {game.away_team}
-                </p>
+                </h5>
                 {game.bookmakers.map((bookmaker) => (
                   <div key={bookmaker.key}>
                     {bookmaker.markets.map((market) => (

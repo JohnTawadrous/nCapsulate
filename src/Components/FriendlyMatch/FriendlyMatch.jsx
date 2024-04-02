@@ -101,14 +101,16 @@ const FriendlyMatch = () => {
                 <Link to="/live-odds">
                     <button className='create-slip-button' >Create New BetSlip</button>
                 </Link>
-
-                {/* Modal to display bet slip details */}
-                <BetSlipDetailsModal
-                    isOpen={showBetSlipDetails}
-                    betSlip={selectedBetSlipDetails}
-                    onClose={handleCloseBetSlipDetails}
-                />
+                
             </div>
+                <div>
+                    {/* Modal to display bet slip details */}
+                    <BetSlipDetailsModal
+                        isOpen={showBetSlipDetails}
+                        betSlip={selectedBetSlipDetails}
+                        onClose={handleCloseBetSlipDetails}
+                    />
+                    </div>
         </div>
     );
 };

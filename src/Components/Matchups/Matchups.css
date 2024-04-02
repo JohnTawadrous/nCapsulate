@@ -1,31 +1,68 @@
-.matchup-box{
+.matchup-box {
     position: relative;
-    width: 100%;
-    align-content: center;
-    margin-bottom: 20px;
-    background: transparent;
-    border: 2px solid rgba(255, 255, 255, .2);
+    background: rgba(0, 0, 0, 0.603);
+    border: 2px solid rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(30px);
     box-shadow: 0 0 10px rgba(0, 0, 0, .2);
-    color: #15ca0f;
+    color: #ffffff;
     border-radius: 10px;
     padding: 10px 10px;
-    font-size: large;
-    
+    font-size: 20px;
+    margin-bottom: 20px;
+    width: 400px;
+  }
+
+.matchup-details-button{
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: rgb(212, 131, 8);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 .matchups-container{
-    display: flex;
-}
-
-.matchups-grid{
     width: 100%;
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
+}
+
+.matchups-grid {
+  /* width: calc(50% - 60px); Adjust the width as needed */
+  width: 400px;
 }
 
 .matchups-container h2{
     position: relative;
     margin-bottom: 20px;
+}
+
+.horizontal-space{
+    width: 30px; /* Adjust the width as needed */
+    display: inline-block;
+}
+
+.usernames-container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+
+  
+.details-modal1,
+.details-modal2 {
+  width: 350px;/* Adjust the width as needed */
+  background: rgba(0, 0, 0, 0.650);
+  border: 2px solid rgba(255, 255, 255, .2);
+  backdrop-filter: blur(30px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+  color: #fff;
+  border-radius: 10px;
+  padding: 30px 40px;
+  font-size: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
 }

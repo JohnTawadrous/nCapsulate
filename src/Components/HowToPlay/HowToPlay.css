@@ -1,0 +1,15 @@
+#how-to-play{
+    width: 100%;
+    margin-bottom: 20px;
+    background: transparent;
+    border: 2px solid rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(30px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+    color: #000000;
+    border-radius: 10px;
+    padding: 10px 10px;
+}
+
+#how-to-play p{
+    font-size: 20px;
+}
