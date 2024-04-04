@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/api/auth/";
+// const API_URL = "http://localhost:8080/api/auth/";
+const API_URL = "http://3.86.234.156:8080/api/auth/";
 
 // let myJwtToken;
 
@@ -47,16 +48,6 @@ const logout = () => {
 const getCurrentUser = () => {
   return JSON.parse(localStorage.getItem("user"));
 };
-
-// const fetchBetSlips = async (username) => {
-//   try {
-//       const response = await axios.get(`/api/betslips/${username}`);
-//       return response.data; // Assuming your API returns the bet slips directly
-//   } catch (error) {
-//       console.error('Error fetching bet slips:', error);
-//       throw error; // Handle the error as needed in your React component
-//   }
-// };
 
 const AuthService = {
   register,

@@ -31,7 +31,7 @@ function HowToPlay() {
             <p>Once on the "Browse Odds" page, you will see all the games of today's slate.</p>
             <p>Each game has 2 selections to make, the spread and the total points.</p>
             <p>To create a bet slip, select a predicted spread and total points for each game of the day.</p>
-            <p>Once all you have completed your predictions, click on the "Confirm Selections" button on the sidebar.</p>
+            <p>Once you have completed all of your predictions, click on the "Confirm Selections" button on the sidebar.</p>
             <p>If all the games have been predicted and confirmed, you will see your Bet Slip ID at the top of the page.</p>            
             <br></br>
 

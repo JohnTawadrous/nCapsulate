@@ -13,6 +13,7 @@ const FriendlyMatch = () => {
     const [betSlips, setBetSlips] = useState([]);
     const [showBetSlipDetails, setShowBetSlipDetails] = useState(false); // State to control the visibility of bet slip details modal
     const [selectedBetSlipDetails, setSelectedBetSlipDetails] = useState(null); // State to store details of the selected bet slip
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
     useEffect(() => {
         // Fetch user's saved betslips
@@ -50,6 +51,11 @@ const FriendlyMatch = () => {
             await UserService.sendMatchupRequest(matchupRequestData);
             // Handle success: Display a success message or redirect the user
             console.log("Matchup request sent successfully");
+            setOpponentUsername('');
+            setSelectedBetslip(null);
+
+            setShowSuccessMessage(true);
+
         } catch (error) {
             // Handle error: Display an error message to the user
             console.error("Error sending matchup request:", error.message);
@@ -73,6 +79,11 @@ const FriendlyMatch = () => {
             <MenuBar username={username} />
             <h1>Friendly Match</h1>
             <div className='wrapper-friendly-match'>
+            {showSuccessMessage && (
+                <div className='success-message'>
+                    Matchup request sent successfully!
+                </div>
+                    )}
                 <div className='input-box'>
                     Opponent's Username:
                     <input type="text" placeholder='Enter Opponent Username' value={opponentUsername} onChange={handleOpponentUsernameChange} />

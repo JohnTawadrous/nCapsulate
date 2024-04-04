@@ -76,9 +76,32 @@
   }
 
   select::-ms-expand {
-    /* display: none; */
     border-radius: 10px;
     background-color: rgba(241, 10, 10, 0.411);
+  }
+
+  @media only screen and (max-width: 768px) {
+    .wrapper-friendly-match {
+      width: 90%; 
+      margin: 0 auto; 
+      padding: 20px; 
+      font-size: 16px; 
+    }
+  
+    .wrapper-friendly-match .input-box {
+      margin-top: 10px; 
+    }
+  
+    .send-match-button,
+    .view-slip-button,
+    .create-slip-button {
+      font-size: 14px; 
+      padding: 8px 16px; 
+    }
+  
+    .wrapper-friendly-match select {
+      font-size: 14px; 
+    }
   }
 
   

@@ -19,7 +19,7 @@ const Matchups = ({ userId }) => {
           try {
               const currentUser = AuthService.getCurrentUser();
               setUsername(currentUser.username);
-              const response = await axios.get(`/api/matchups/active/${currentUser.id}`);
+              const response = await axios.get(`http://3.86.234.156:8080/api/matchups/active/${currentUser.id}`);
               setActiveMatchups(response.data);
           } catch (error) {
               console.error('Error fetching active matchups:', error);
@@ -30,7 +30,7 @@ const Matchups = ({ userId }) => {
           try {
               const currentUser = AuthService.getCurrentUser();
               setUsername(currentUser.username);
-              const response = await axios.get(`/api/matchups/completed/${currentUser.id}`);
+              const response = await axios.get(`http://3.86.234.156:8080/api/matchups/completed/${currentUser.id}`);
               setCompletedMatchups(response.data);
           } catch (error) {
               console.error('Error fetching completed matchups:', error);

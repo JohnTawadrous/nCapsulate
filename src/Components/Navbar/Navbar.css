@@ -2,7 +2,8 @@
   position: relative;
   bottom: 0;
   left: 0;
-  width: 100%;
+  width: auto; 
+  max-width: 100%;
   border: 2px solid rgba(255, 255, 255, .7);
   backdrop-filter: blur(30px);
   background: transparent;
@@ -11,6 +12,7 @@
   padding: 30px 40px;
   border-radius: 10px;
   text-align: center;
+  overflow-x: auto;
 }
 
 .navbar ul {
@@ -52,4 +54,20 @@
   }
   .navbar button:hover {
     color: #ff9900; 
+  }
+
+
+
+  @media only screen and (max-width: 768px) {
+    .navbar {
+      padding: 20px 10px;
+    }
+  
+    .navbar li {
+      margin-right: 15px; 
+    }
+  
+    .navbar a, .navbar button {
+      font-size: 0.7em; 
+    }
   }

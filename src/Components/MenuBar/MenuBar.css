@@ -5,9 +5,8 @@
     flex-direction: row; 
     justify-content: space-between;
     align-items: center;
-    padding: 30px 40px;
-    width: 97%;
-    min-width: 600px;
+    padding: 20px; 
+    width: 100%;
     position: relative;
     border: 2px solid rgba(255, 255, 255, .7);
     backdrop-filter: blur(30px);
@@ -16,7 +15,7 @@
     font-size: 16px;
     border-radius: 10px;
     text-align: center;
-    margin: 20px 20px;
+    margin: 20px 0;
   }
 
   .menu-bar a {
@@ -39,4 +38,18 @@
     display: flex;
     gap: 30px;
     margin-right: 20px;
+  }
+
+
+  @media only screen and (max-width: 768px) {
+    .menu-bar {
+      flex-direction: column-reverse ; 
+      align-items: center;
+      padding: 10px; 
+    }
+    
+    .menu-bar .left, .menu-bar .right {
+      gap: 10px; 
+      margin: 10px 0; 
+    }
   }

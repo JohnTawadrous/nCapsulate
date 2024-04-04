@@ -1,13 +1,11 @@
 .container {
     display: flex;
     margin-left: 10px;
-    /* flex-direction: column; */
-    /* height: 100vh; */
 }
 
 content {
   display: flex;
-  /* flex-grow: 1; Allow content to take up remaining vertical space */
+  flex: 1;
 }
 
 .games-grid {
@@ -26,7 +24,6 @@ content {
     width: calc(25% - 20px);
     margin-bottom: 20px;
     background: transparent;
-    /* background: rgba(0, 0, 0, 0.650); */
     border: 3px solid rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(30px);
     box-shadow: 0 0 10px rgba(0, 0, 0, .5);
@@ -62,9 +59,9 @@ content {
 }
 
 .team-logo {
-  width: 30px; /* Adjust the width as needed */
-  height: auto; /* Maintain aspect ratio */
-  margin-right: 5px; /* Add spacing between logos */
+  width: 30px; 
+  height: auto; 
+  margin-right: 5px; 
 }
 
 .success-message{
@@ -87,12 +84,16 @@ content {
 
   @media (max-width: 768px) {
     .game-box {
-      width: calc(50% - 20px);
-    }
-  }
-  
-  @media (max-width: 576px) {
-    .game-box {
       width: calc(100% - 20px);
     }
+
+    .sidebar {
+      order: 1; 
+      margin-top: 20px; 
   }
+
+  .content {
+    flex: 1; 
+}
+  }
+  

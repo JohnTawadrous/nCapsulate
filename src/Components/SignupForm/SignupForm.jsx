@@ -24,6 +24,25 @@ const SignupForm = () => {
     setUsernameError('');
     setEmailError('');
 
+    // Validate username length
+      if (username.length < 4) {
+      setUsernameError('Username must be at least 4 characters long.');
+      return;
+    }
+
+    // Verify if email is a valid email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setEmailError('Invalid email format.');
+      return;
+    }
+
+    // Verify if password is empty or less than 6 characters
+    if (!password.trim() || password.length < 6) {
+    alert('Password must be at least 6 characters long.');
+    return;
+  }
+
     // Check if passwords match
     if (password !== confirmPassword) {
       console.error('Passwords do not match');
@@ -47,7 +66,7 @@ const SignupForm = () => {
       confirmEmail: confirmEmail,
     };
 
-    fetch('http://localhost:8080/api/auth/signup', {
+    fetch('http://3.86.234.156:8080/api/auth/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -99,8 +118,7 @@ const SignupForm = () => {
       <form>
         <h1>Signup</h1>
         <div className='signup-success-message'>
-          {successMessage && <p>{successMessage}</p>}
-          <a href="/login">Login</a>
+          {successMessage && <p>{successMessage} <br /> <a href="/login">Login</a></p>}
         </div>
         <div className='input-box'>
           <input type="text" placeholder='Username' value={username} onChange={e => setUsername(e.target.value)} />

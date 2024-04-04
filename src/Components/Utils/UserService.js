@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/api/test/";
+// const API_URL = "http://localhost:8080/api/test/";
+const API_URL = "http://3.86.234.156:8080/api/test/";
 
 const getPublicContent = () => {
   return axios.get(API_URL + "all");
@@ -19,12 +20,12 @@ const getAdminBoard = () => {
 };
 
 const getLiveOdds = () => {
-    return axios.get("http://localhost:8080/api/odds/live");
+    return axios.get("http://3.86.234.156:8080/api/odds/live");
 };
 
 const sendMatchupRequest = async (matchupRequestData) => {
   try {
-    const response = await axios.post(`http://localhost:8080/api/matchups/send-request`, matchupRequestData);
+    const response = await axios.post(`http://3.86.234.156:8080/api/matchups/send-request`, matchupRequestData);
     return response.data;
   } catch (error) {
     throw new Error('Failed to send matchup request');
@@ -33,7 +34,7 @@ const sendMatchupRequest = async (matchupRequestData) => {
 
 const acceptMatchup = async (matchupId, selectedBetSlipId) => {
   try {
-    const response = await axios.post(`http://localhost:8080/api/matchups/accept/${matchupId}?selectedBetSlipId=${selectedBetSlipId}`);
+    const response = await axios.post(`http://3.86.234.156:8080/api/matchups/accept/${matchupId}?selectedBetSlipId=${selectedBetSlipId}`);
     return response.data;
   } catch (error) {
     throw new Error('Failed to accept matchup');
@@ -42,7 +43,7 @@ const acceptMatchup = async (matchupId, selectedBetSlipId) => {
 
 const declineMatchup = async (matchupId) => {
   try {
-    const response = await axios.post(`http://localhost:8080/api/matchups/decline/${matchupId}`);
+    const response = await axios.post(`http://3.86.234.156:8080/api/matchups/decline/${matchupId}`);
     return response.data;
   } catch (error) {
     throw new Error('Failed to decline matchup');
@@ -50,32 +51,32 @@ const declineMatchup = async (matchupId) => {
 };
 
 const getSavedBetSlips = (username) => {
-  return axios.get("http://localhost:8080/api/betslips/saved", {
+  return axios.get("http://3.86.234.156:8080/api/betslips/saved", {
     params: { username: username }
   });
 };
 
 const getBetSlip = (id) => {
-  return axios.get("http://localhost:8080/api/betslips/betslip-details", {
+  return axios.get("http://3.86.234.156:8080/api/betslips/betslip-details", {
     params: { id: id }
   });
 };
 
 const getSavedBetSlipsToday = (username, createdAt) => {
-  return axios.get("http://localhost:8080/api/betslips/saved-today", {
+  return axios.get("http://3.86.234.156:8080/api/betslips/saved-today", {
     params: { username: username, createdAt: createdAt  }
   });
 };
 
 const getPendingMatchupRequests = (username) => {
-  return axios.get("http://localhost:8080/api/matchups/pending", {
+  return axios.get("http://3.86.234.156:8080/api/matchups/pending", {
     params: { username: username }
   });
 };
 
 const getUsernameById = async (userId) => {
   try {
-      const response = await axios.get(`http://localhost:8080/api/matchups/${userId}/username`);
+      const response = await axios.get(`http://3.86.234.156:8080/api/matchups/${userId}/username`);
       return response.data;
   } catch (error) {
       throw new Error('Failed to get username by ID');

@@ -120,7 +120,7 @@ const handleConfirmBet = async () => {
       selectedBets
     };
 
-    const response = await axios.post('http://localhost:8080/api/betslips/save', betSlipRequest);
+    const response = await axios.post('http://3.86.234.156:8080/api/betslips/save', betSlipRequest);
 
     setSuccessMessage('Bet slip saved successfully');
     setBetSlipId(response.data.betSlipId);
@@ -135,19 +135,27 @@ const handleConfirmBet = async () => {
   }
 };
 
+const isGameStartedToday = (game) => {
+  if (!game) return false; // Check if game object is provided
+  const gameStartTime = new Date(game.commence_time);
+  const currentTime = new Date();
+
+  // Check if the game has started today
+  return gameStartTime <= currentTime;
+};
+
   return (
 
 <div>
     <MenuBar username={username} />
     <div className='success-message'>
-      {successMessage && <p>Bet slip saved successfully. Bet slip ID: {betSlipId}</p>}
+        {successMessage && <p>Bet slip saved successfully. Bet slip ID: {betSlipId}</p>}
       </div>
-    <div className='container'>
+      <div className='container'>
         <div className="games-grid">
           {liveOdds !== null ? (
             liveOdds.map((game) => (
               <div key={game.id} className="game-box">
-                {/* <h3>{game.sport_title}</h3> */}
                 <p>
                   {new Date(game.commence_time).toLocaleDateString('en-US', {
                     day: 'numeric',
@@ -174,12 +182,15 @@ const handleConfirmBet = async () => {
                             key={outcome.name}
                             className={`select-button ${selectedSpreadOptions[game.id]?.selected === outcome.name || selectedOverUnderOptions[game.id]?.selected === outcome.name ? 'selected' : ''}`}
                             onClick={() => {
-                              if (market.key === 'spreads') {
-                                handleSpreadSelection(game.id, outcome, game.home_team, game.away_team, outcome.name, market.key);
-                              } else {
-                                handleOverUnderSelection(game.id, outcome, game.home_team, game.away_team, outcome.name, market.key );
+                              if (!isGameStartedToday(game)) {
+                                if (market.key === 'spreads') {
+                                  handleSpreadSelection(game.id, outcome, game.home_team, game.away_team, outcome.name, market.key);
+                                } else {
+                                  handleOverUnderSelection(game.id, outcome, game.home_team, game.away_team, outcome.name, market.key );
+                                }
                               }
                             }}
+                            disabled={isGameStartedToday(game)}
                           >
                             {outcome.name}: {outcome.point}
                           </button>

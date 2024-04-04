@@ -129,8 +129,6 @@ const UserPage = () => {
                                       ))}
                                   </select>
                               </label>
-                              {/* <div>Bet Slip: {request.betSlipUser1.id}</div> */}
-                              {/* Button to view bet slip details */}
                                 {selectedBetslip && (
                                     <button className='view-slip-button' onClick={() => handleViewBetSlipDetails(selectedBetslip)}>View Bet Slip Details</button>
                                 )}

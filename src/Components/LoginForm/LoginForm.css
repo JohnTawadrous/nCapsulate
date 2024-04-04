@@ -1,5 +1,5 @@
 .wrapper {
-    width: 420px;
+    width: 90%;
     background: transparent;
     border: 2px solid rgba(255, 255, 255, .2);
     backdrop-filter: blur(30px);
@@ -108,4 +108,27 @@
     background: none;
     border: none;
     cursor: pointer;
+  }
+
+
+  @media only screen and (max-width: 768px) {
+    .wrapper {
+      padding: 20px 5%; 
+    }
+  
+    .input-box input {
+      font-size: 0.9em; 
+    }
+  
+    .remember-forgot {
+      font-size: 0.7em; 
+    }
+  
+    .wrapper button {
+      font-size: 0.9em; 
+    }
+  
+    .register-link {
+      font-size: 0.7em; 
+    }
   }
