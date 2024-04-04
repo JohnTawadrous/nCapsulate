@@ -15,6 +15,8 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 @Service
@@ -140,6 +142,29 @@ public class MatchupService {
 
     public void acceptMatchup(Long matchupId, Long selectedBetSlipId) throws ChangeSetPersister.NotFoundException {
         Matchup matchup = matchupRepository.findById(matchupId).orElseThrow(() -> new ChangeSetPersister.NotFoundException());
+
+        // Get the current date
+        LocalDate today = LocalDate.now();
+
+        // Convert bet slip creation date to LocalDate
+        LocalDate betSlipCreationDate = matchup.getBetSlipUser1().getCreatedAt().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        // Check if the bet slip creation date is today
+        if (!betSlipCreationDate.isEqual(today)) {
+            // Bet slip not created today, decline the matchup
+            declineMatchup(matchupId);
+            return; // Exit the method
+        }
+
+        // Check if the number of bet options in the second user's bet slip matches the number in the first user's bet slip
+        int betOptionsCountUser1 = matchup.getBetSlipUser1().getSelectedBets().size();
+        int betOptionsCountUser2 = betSlipRepository.findBetSlipById(selectedBetSlipId).getSelectedBets().size();
+
+        if (betOptionsCountUser1 != betOptionsCountUser2) {
+            throw new IllegalStateException("Cannot accept matchup, the number of bet options in your bet slip does not match the number in the opponent's bet slip.");
+        }
+
+        // Proceed with accepting the matchup
         matchup.setStatus(MatchupStatus.ACCEPTED);
         BetSlip selectedBetSlip = betSlipRepository.findBetSlipById(selectedBetSlipId);
         matchup.setBetSlipUser2(selectedBetSlip);

@@ -7,7 +7,6 @@ import io.ncapsulate.letsbet.models.BetType;
 import io.ncapsulate.letsbet.models.User;
 import io.ncapsulate.letsbet.payload.request.BetSlipRequest;
 import io.ncapsulate.letsbet.payload.response.BetSlipResponse;
-import io.ncapsulate.letsbet.payload.response.UserInfoResponse;
 import io.ncapsulate.letsbet.repository.UserRepository;
 import io.ncapsulate.letsbet.security.jwt.JwtUtils;
 import io.ncapsulate.letsbet.security.services.UserDetailsImpl;

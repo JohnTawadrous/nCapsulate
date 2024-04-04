@@ -1,6 +1,7 @@
 package io.ncapsulate.letsbet.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -30,6 +31,14 @@ public class BetSlip {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
     private Date createdAt;
+
+    @OneToMany(mappedBy = "betSlipUser1", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonBackReference
+    private Set<Matchup> matchupsForUser1 = new HashSet<>();
+
+    @OneToMany(mappedBy = "betSlipUser2", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonBackReference
+    private Set<Matchup> matchupsForUser2 = new HashSet<>();
 
     private int totalCorrectBets;
 
@@ -75,6 +84,22 @@ public class BetSlip {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Set<Matchup> getMatchupsForUser1() {
+        return matchupsForUser1;
+    }
+
+    public void setMatchupsForUser1(Set<Matchup> matchupsForUser1) {
+        this.matchupsForUser1 = matchupsForUser1;
+    }
+
+    public Set<Matchup> getMatchupsForUser2() {
+        return matchupsForUser2;
+    }
+
+    public void setMatchupsForUser2(Set<Matchup> matchupsForUser2) {
+        this.matchupsForUser2 = matchupsForUser2;
     }
 
     public int getTotalCorrectBets() {

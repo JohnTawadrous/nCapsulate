@@ -2,6 +2,7 @@ package io.ncapsulate.letsbet.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -22,12 +23,14 @@ public class Matchup {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user2;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "betslip_user1_id", referencedColumnName = "id")
+    @JsonManagedReference
     private BetSlip betSlipUser1;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "betslip_user2_id", referencedColumnName = "id")
+    @JsonManagedReference
     private BetSlip betSlipUser2;
 
     @ManyToOne(fetch = FetchType.LAZY)

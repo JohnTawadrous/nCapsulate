@@ -32,10 +32,10 @@ public class ScheduledTasks {
 
     private static final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
 
-    @Scheduled(cron = "36 12 * * * *", zone = "America/New_York")
-    public void fetchGameScoresDaily() {
+    @Scheduled(cron = "0 0 * * * *", zone = "America/New_York")
+    public void fetchGameScoresHourly() {
         // Call your method to fetch game scores here
-        logger.info("Scheduled task to fetch game scores started.");
+        logger.info("THE NEW UPDATED Scheduled task to fetch game scores started.");
         try {
 
             List<BetSlip> betSlips = betSlipService.getAllBetSlips();
@@ -68,6 +68,6 @@ public class ScheduledTasks {
 
     @PostConstruct
     public void executeScheduledTaskManually() {
-        fetchGameScoresDaily();
+        fetchGameScoresHourly();
     }
 }

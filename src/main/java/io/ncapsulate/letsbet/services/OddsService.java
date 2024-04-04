@@ -56,7 +56,7 @@ public class OddsService {
 
     public List<GameScore> fetchGameScores() throws Exception{
         logger.info("Fetching game scores...");
-        String apiUrl = "https://api.the-odds-api.com/v4/sports/basketball_nba/scores/?daysFrom=2&apiKey=" + apiKey;
+        String apiUrl = "https://api.the-odds-api.com/v4/sports/basketball_nba/scores/?daysFrom=1&apiKey=" + apiKey;
         HttpClient client = HttpClient.newHttpClient();
 
         // Create an HttpRequest to the API endpoint
