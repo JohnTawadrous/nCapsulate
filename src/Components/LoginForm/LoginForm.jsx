@@ -37,7 +37,12 @@ const LoginForm = () => {
 
 
   return (
+
+    <div className='login-container'>
+    <img src="/Okay Bet mate (4).png" alt="Logo" className='logo' />
     <div className='wrapper'>
+
+    
 
         <form>
             <h1>Login</h1>
@@ -71,6 +76,7 @@ const LoginForm = () => {
                 <p>Don't have an account? <a href="/signup">Register</a></p>
             </div>
       </form>
+    </div>
     </div>
   );
 };

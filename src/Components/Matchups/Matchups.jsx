@@ -53,6 +53,7 @@ const Matchups = ({ userId }) => {
 
   return (
         <div>
+        <img src="/Okay Bet mate (5).png" alt="Logo" className='logo' />
         <MenuBar username={username} />
         <div className='matchups-container'>
           

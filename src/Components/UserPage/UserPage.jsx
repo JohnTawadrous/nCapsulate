@@ -104,7 +104,9 @@ const UserPage = () => {
 
   return (
       <div>
-          <h1>{username}</h1>
+        <img src="/Okay Bet mate (8).png" alt="Logo" className='logo' />
+          <h3>{username}</h3>
+        
           <Navbar />
           <h2>Pending Matchup Requests</h2>
           {loading ? (

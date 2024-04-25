@@ -38,8 +38,10 @@ const BetSlipsComponent = () => {
 
     return (
         <div>
+            <img src="/Okay Bet mate (5).png" alt="Logo" className='logo' />
             <MenuBar username={username} />
-            <h1>{username}'s Recent Bet Slips</h1>
+            {/* <h1>{username}'s Recent Bet Slips</h1> */}
+            <h2 className='view-slip-text'>View Slips</h2>
             <div className='container'>
                 <div className='bet-slip-grid'>
                     {betSlips.map(betSlip => (

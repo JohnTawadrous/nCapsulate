@@ -14,6 +14,7 @@ function HowToPlay() {
 
     return (
         <div>
+            <img src="/Okay Bet mate (5).png" alt="Logo" className='logo' />
             <MenuBar username={username} />
             <div id="how-to-play">
             <h1>How to Play</h1>

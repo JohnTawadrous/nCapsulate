@@ -114,6 +114,8 @@ const SignupForm = () => {
   };
 
   return (
+    <div className='signup-container'>
+    <img src="/Okay Bet mate (4).png" alt="Logo" className='logo' />
     <div className='wrapper'>
       <form>
         <h1>Signup</h1>
@@ -156,6 +158,7 @@ const SignupForm = () => {
           <p>Already have an account? <a href="/login">Login</a></p>
         </div>
       </form>
+    </div>
     </div>
   );
 };

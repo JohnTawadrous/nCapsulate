@@ -62,6 +62,8 @@ const BetSlipDetailsModal = ({ isOpen, betSlip, onClose }) => {
                 {betSlipDetails && (
                     <div>
                         <h4>Bet Slip ID: {betSlipDetails.id}</h4>
+                        {/* Here is where I want the username*/}
+                        <h4>Bet Slip ID: {betSlipDetails.user}</h4>
                         <div className='vertical-space'></div>
                         {/* <p>Selected Bets:</p> */}
                         {Object.keys(groupedBets).map(gameId => {

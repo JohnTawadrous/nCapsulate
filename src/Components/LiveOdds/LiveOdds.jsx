@@ -147,6 +147,7 @@ const isGameStartedToday = (game) => {
   return (
 
 <div>
+  <img src="/Okay Bet mate (5).png" alt="Logo" className='logo' />
     <MenuBar username={username} />
     <div className='success-message'>
         {successMessage && <p>Bet slip saved successfully. Bet slip ID: {betSlipId}</p>}

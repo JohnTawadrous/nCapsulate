@@ -76,6 +76,7 @@ const FriendlyMatch = () => {
 
     return (
         <div>
+            <img src="/Okay Bet mate (5).png" alt="Logo" className='logo' />
             <MenuBar username={username} />
             <h1>Friendly Match</h1>
             <div className='wrapper-friendly-match'>
